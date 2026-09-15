@@ -80,7 +80,9 @@ export default function Overview({onOpenIndicator,onOpenFinding}){
           <Box>
             <Typography variant="overline" sx={{letterSpacing:1.5,color:'primary.main',fontWeight:900}}>MPCA FLOOD RESPONSE</Typography>
             <Typography variant="h3" sx={{mt:.3,fontSize:{xs:30,md:42},letterSpacing:-1.5}}>MEAL Decision Intelligence Platform</Typography>
-            <Typography sx={{mt:.8,color:'text.secondary',fontSize:{xs:14,md:16}}>From evidence to findings, decisions and action.</Typography>
+            <Typography sx={{mt:.8,color:'text.secondary',fontSize:{xs:14,md:16}}}>
+  From evidence to findings, decisions and action.
+</Typography>
           </Box>
           <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
             <Chip label="SIMULATED PORTFOLIO" size="small" variant="outlined" />
