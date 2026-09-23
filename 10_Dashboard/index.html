@@ -1,1 +1,1712 @@
-<!doctype html><html><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/><meta name="theme-color" content="#0b1220"/><title>MPCA Flood Response | MEAL Decision Intelligence Platform</title></head><body><div id="root"></div><script type="module" src="/src/main.jsx"></script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MPCA Flood Response | MEAL Decision Dashboard</title>
+<style>
+:root{
+  --blue:#075B85;
+  --blue2:#1B6A93;
+  --teal:#168F88;
+  --teal2:#55B8A7;
+  --green:#168B73;
+  --orange:#C88922;
+  --red:#D84B4B;
+  --text:#24465E;
+  --muted:#5C6970;
+  --line:#C9E6F2;
+  --white:#FFFFFF;
+  --page:#F7FBFD;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--page)}
+body{font-family:"Segoe UI",Arial,sans-serif;color:var(--text)}
+
+.header{
+  width:100%; min-height:121px; padding:13px 27px 12px;
+  background:#fff; border-top:7px solid var(--blue);
+  border-bottom:1px solid var(--line);
+  display:flex; align-items:center; gap:24px;
+}
+.people{width:75px;height:75px;flex:0 0 75px;display:block}
+.copy{min-width:0}
+.title{
+  margin:0;color:var(--blue);font-size:31px;line-height:1.05;
+  font-weight:700;letter-spacing:-.55px;white-space:nowrap
+}
+.subtitle{
+  margin-top:7px;color:var(--blue2);font-size:17px;line-height:1.1;white-space:nowrap
+}
+.context{
+  margin-top:13px;color:#1C5B82;font-size:13px;line-height:1;white-space:nowrap
+}
+.context span{color:#9CB9C8;padding:0 14px}
+.project{
+  margin-left:auto;height:64px;padding-left:17px;border-left:2px solid #9DC8DC;
+  display:flex;align-items:center;gap:12px;flex:0 0 auto
+}
+.ci-mark{width:48px;height:58px;flex:0 0 48px;display:block;overflow:visible}
+.project-title{color:var(--blue);font-size:15px;line-height:1.05;font-weight:700;white-space:nowrap}
+.project-meta{margin-top:8px;color:#4F6F83;font-size:12px;line-height:1;white-space:nowrap}
+
+/* KPI ROW */
+.kpi-row{
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:15px;
+  padding:20px 24px 16px;
+}
+.kpi{
+  height:164px;
+  min-height:164px;
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:7px;
+  padding:11px 13px 12px;
+  position:relative;
+  overflow:hidden;
+  display:grid;
+  grid-template-rows:52px 29px 25px 35px;
+  row-gap:3px;
+}
+.kpi.fcs{background:linear-gradient(135deg,#f7ffff 0%,#f2fbfa 100%)}
+.kpi.mean{background:linear-gradient(135deg,#f8fcff 0%,#f3faff 100%)}
+.kpi.rcsi{background:linear-gradient(135deg,#f7ffff 0%,#f3fbfa 100%)}
+.kpi.transfer{background:linear-gradient(135deg,#fffafa 0%,#fff4f4 100%);border-color:#F1CCCC}
+.kpi.econ{background:linear-gradient(135deg,#fffdf8 0%,#fff8ea 100%);border-color:#F0DEB8}
+
+.kpi-top{
+  display:grid;
+  grid-template-columns:52px minmax(0,1fr);
+  align-items:center;
+  column-gap:9px;
+  min-width:0;
+}
+.kpi-icon{
+  width:52px;height:52px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  color:#fff;font-size:25px;font-weight:700;
+}
+.fcs .kpi-icon,.rcsi .kpi-icon{background:var(--teal)}
+.mean .kpi-icon{background:#1877A8}
+.transfer .kpi-icon{background:var(--red)}
+.econ .kpi-icon{background:var(--orange)}
+.kpi-label{
+  min-width:0;
+  color:#07507B;font-size:13.5px;font-weight:700;line-height:1.12;
+}
+.kpi-values{
+  margin:0 0 0 61px;
+  min-width:0;
+  color:#07507B;font-size:17px;line-height:29px;font-weight:700;
+  white-space:nowrap;
+  overflow:hidden;
+}
+.kpi-values .arrow{padding:0 6px;font-weight:400}
+.kpi-sub{
+  margin:0 0 0 61px;
+  min-width:0;
+  color:#1C5B82;font-size:11.5px;line-height:25px;
+  white-space:nowrap;
+}
+.kpi-sub .follow-label{float:right;margin-right:2px}
+.kpi-status{
+  margin:0;
+  min-width:0;
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  align-items:center;
+  gap:7px;
+}
+.kpi-change{
+  min-width:0;
+  height:35px;
+  border-radius:18px;
+  display:flex;
+  align-items:center;
+  padding:0 7px;
+  font-size:10.5px;
+  font-weight:700;
+  white-space:nowrap;
+  overflow:hidden;
+}
+.kpi-change .arrow-up{
+  flex:0 0 auto;
+  font-size:17px;
+  line-height:1;
+  margin-right:8px;
+}
+.kpi-change.good{background:#DDF3EC;color:#13816D}
+.kpi-change.neutral{background:#E4F1F7;color:#176A91}
+.kpi-change.issue{background:#F5D7D7;color:#C83F3F}
+.kpi-change.tbd{background:#FCEBC9;color:#B8780F}
+.kpi-badge{white-space:nowrap;overflow:visible;
+  min-width:72px;
+  max-width:100%;
+  height:35px;
+  padding:0 7px;
+  border-radius:18px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:10px;
+  font-weight:700;
+  white-space:nowrap;
+}
+.kpi-badge.met{background:#DDF3EC;color:#147A68}
+.kpi-badge.descriptive{background:#E5F2F8;color:#176A91}
+.kpi-badge.not-met{background:#E95555;color:#fff}
+.kpi-badge.tbd{background:#FBE9C5;color:#B8780F}
+.kpi-badge .small{font-weight:600;margin-left:4px}
+.transfer .kpi-values{font-size:18px;padding:0 9px}
+
+
+/* ECONOMIC CAPACITY */
+.economic-panel{
+  margin:0 24px 18px;
+}
+.economic-content{
+  display:grid;
+  grid-template-columns:minmax(0,1.45fr) minmax(280px,.8fr);
+  gap:11px;
+  padding:0 11px 11px;
+}
+.economic-card{
+  border:1px solid #CFE6F0;
+  border-radius:5px;
+  padding:12px 14px;
+  min-width:0;
+}
+.economic-card h3{
+  margin:0 0 8px;
+  color:#07507B;
+  font-size:14px;
+  line-height:1.2;
+}
+.econ-chart{
+  display:grid;
+  grid-template-columns:86px minmax(0,1fr) 92px;
+  gap:9px;
+  align-items:center;
+  min-height:122px;
+}
+.econ-period{
+  color:#315C73;
+  font-size:11px;
+  line-height:1.2;
+}
+.econ-bar-area{
+  display:flex;
+  flex-direction:column;
+  gap:17px;
+}
+.econ-bar-row{
+  display:grid;
+  grid-template-columns:minmax(0,1fr);
+  gap:4px;
+}
+.econ-track{
+  height:25px;
+  background:#EEF4F7;
+  border-radius:4px;
+  overflow:hidden;
+}
+.econ-bar{
+  height:100%;
+  border-radius:4px;
+  background:#197FAE;
+}
+.econ-bar.follow{
+  background:#168F88;
+}
+.econ-bar-value{
+  color:#075B85;
+  font-size:12px;
+  font-weight:700;
+  text-align:right;
+  white-space:nowrap;
+}
+.econ-change{
+  border-left:1px solid #D8E8EE;
+  padding-left:13px;
+  color:#287265;
+  font-size:12px;
+  line-height:1.35;
+}
+.econ-change strong{
+  display:block;
+  color:#075B85;
+  font-size:19px;
+  margin-bottom:3px;
+}
+.econ-note{
+  min-height:122px;
+  border-radius:8px;
+  background:#FFF6E8;
+  border:1px solid #F1D9AA;
+  padding:13px 14px;
+  color:#765A22;
+  font-size:12px;
+  line-height:1.5;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+.econ-note .note-label{
+  display:inline-flex;
+  align-self:flex-start;
+  margin-bottom:7px;
+  padding:4px 8px;
+  border-radius:12px;
+  background:#F4A126;
+  color:#fff;
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:.3px;
+}
+.econ-note strong{
+  color:#6B4E18;
+}
+.economic-footnote{
+  margin:0 11px 11px;
+  padding:8px 10px;
+  background:#F7FAFB;
+  border-top:1px solid #E2EDF2;
+  color:#5B7180;
+  font-size:10.5px;
+  line-height:1.35;
+}
+@media(max-width:700px){
+  .economic-panel{margin-left:14px;margin-right:14px}
+  .economic-content{grid-template-columns:1fr}
+  .econ-chart{grid-template-columns:75px minmax(0,1fr) 82px}
+}
+
+/* MAIN FINDINGS */
+.findings-panel{
+  margin:0 24px 18px;
+}
+.findings-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:8px;
+  padding:0 11px 11px;
+}
+.finding-card{
+  border:1px solid #CFE6F0;
+  border-radius:5px;
+  padding:10px 11px;
+  min-width:0;
+  background:#fff;
+  display:grid;
+  grid-template-columns:31px minmax(0,1fr);
+  gap:9px;
+  align-items:start;
+  cursor:pointer;
+  transition:box-shadow .18s ease,transform .18s ease,border-color .18s ease;
+}
+.finding-card:hover,.finding-card:focus-visible{
+  border-color:#75B4C9;
+  box-shadow:0 5px 14px rgba(7,91,133,.10);
+  outline:none;
+}
+.finding-card.is-selected{
+  border-color:#197FAE;
+  box-shadow:0 0 0 2px rgba(25,127,174,.12);
+}
+.finding-number{
+  width:31px;height:31px;
+  border-radius:50%;
+  background:#EAF5F8;
+  color:#075B85;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:10px;
+  font-weight:700;
+}
+.finding-card h3{
+  margin:0 0 3px;
+  color:#07507B;
+  font-size:12.5px;
+  line-height:1.25;
+}
+.finding-card p{
+  margin:0;
+  color:#4D6877;
+  font-size:10.5px;
+  line-height:1.38;
+}
+.finding-tag{
+  display:inline-flex;
+  margin-top:6px;
+  padding:3px 7px;
+  border-radius:10px;
+  background:#EEF8FB;
+  color:#246A82;
+  font-size:9px;
+  font-weight:700;
+}
+.finding-card.attention .finding-tag{
+  background:#FFF3DE;
+  color:#8A651F;
+}
+.findings-note{
+  margin:0 11px 11px;
+  padding:8px 10px;
+  background:#F7FAFB;
+  border-top:1px solid #E2EDF2;
+  color:#5B7180;
+  font-size:10.5px;
+  line-height:1.35;
+}
+@media(max-width:700px){
+  .findings-panel{margin-left:14px;margin-right:14px}
+  .findings-grid{grid-template-columns:1fr}
+}
+
+/* MANAGEMENT ACTIONS */
+.actions-panel{
+  margin:0 24px 18px;
+}
+.actions-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:8px;
+  padding:0 11px 11px;
+}
+.action-card{
+  border:1px solid #D8E6EC;
+  border-left:4px solid #197FAE;
+  border-radius:5px;
+  padding:10px 11px 10px 10px;
+  background:#fff;
+  display:grid;
+  grid-template-columns:31px minmax(0,1fr);
+  gap:9px;
+  align-items:start;
+  cursor:pointer;
+  transition:box-shadow .18s ease,transform .18s ease,border-color .18s ease;
+}
+.action-card:hover,.action-card:focus-visible{
+  border-color:#75B4C9;
+  box-shadow:0 5px 14px rgba(7,91,133,.10);
+  outline:none;
+}
+.action-card.is-selected{
+  border-color:#197FAE;
+  box-shadow:0 0 0 2px rgba(25,127,174,.12);
+}
+.action-number{
+  width:31px;height:31px;
+  border-radius:50%;
+  background:#EEF7FA;
+  color:#075B85;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:10px;
+  font-weight:700;
+}
+.action-card h3{
+  margin:0 0 3px;
+  color:#07507B;
+  font-size:12.5px;
+  line-height:1.25;
+}
+.action-card p{
+  margin:0;
+  color:#4D6877;
+  font-size:10.5px;
+  line-height:1.38;
+}
+.action-link{
+  display:inline-flex;
+  margin-top:6px;
+  padding:3px 7px;
+  border-radius:10px;
+  background:#F1F7F9;
+  color:#246A82;
+  font-size:9px;
+  font-weight:700;
+}
+.action-note{
+  margin:0 11px 11px;
+  padding:8px 10px;
+  background:#F7FAFB;
+  border-top:1px solid #E2EDF2;
+  color:#5B7180;
+  font-size:10.5px;
+  line-height:1.35;
+}
+@media(max-width:700px){
+  .actions-panel{margin-left:14px;margin-right:14px}
+  .actions-grid{grid-template-columns:1fr}
+}
+
+/* EVIDENCE TO ACTION STRIP */
+.evidence-action-panel{
+  margin:0 24px 18px;
+}
+.evidence-action-strip{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:0;
+  padding:0 11px 11px;
+}
+.ea-step{
+  position:relative;
+  border:1px solid #D7E6EC;
+  background:#fff;
+  padding:11px 12px 10px;
+  min-height:92px;
+  cursor:pointer;
+  transition:box-shadow .18s ease,border-color .18s ease,background .18s ease;
+}
+.ea-step:first-child{border-radius:5px 0 0 5px}
+.ea-step:last-child{border-radius:0 5px 5px 0}
+.ea-step:not(:last-child){border-right:0}
+.ea-step:hover,.ea-step:focus-visible{
+  border-color:#75B4C9;
+  box-shadow:0 4px 12px rgba(7,91,133,.10);
+  z-index:2;
+  outline:none;
+}
+.ea-step.is-selected{
+  border-color:#197FAE;
+  box-shadow:0 0 0 2px rgba(25,127,174,.12);
+  z-index:3;
+}
+.ea-step::after{
+  content:"";
+  position:absolute;
+  right:-9px;
+  top:50%;
+  transform:translateY(-50%);
+  width:17px;height:17px;
+  background:#fff;
+  border-top:1px solid #BFD7E1;
+  border-right:1px solid #BFD7E1;
+  rotate:45deg;
+  z-index:4;
+}
+.ea-step:last-child::after{display:none}
+.ea-number{
+  color:#197FAE;
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+.ea-step h3{
+  margin:4px 0 3px;
+  color:#07507B;
+  font-size:12.5px;
+  line-height:1.2;
+}
+.ea-step p{
+  margin:0;
+  color:#5B7180;
+  font-size:10px;
+  line-height:1.32;
+}
+.ea-footnote{
+  margin:0 11px 11px;
+  padding:8px 10px;
+  background:#F7FAFB;
+  border-top:1px solid #E2EDF2;
+  color:#5B7180;
+  font-size:10px;
+  line-height:1.35;
+}
+@media(max-width:700px){
+  .evidence-action-panel{margin-left:14px;margin-right:14px}
+  .evidence-action-strip{grid-template-columns:1fr;gap:6px}
+  .ea-step,.ea-step:first-child,.ea-step:last-child{border-radius:5px;border-right:1px solid #D7E6EC}
+  .ea-step:not(:last-child){border-right:1px solid #D7E6EC}
+  .ea-step::after{display:none}
+}
+
+/* METHODOLOGY & EVIDENCE NOTES */
+.methodology-panel{
+  margin:0 24px 18px;
+}
+.methodology-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:8px;
+  padding:0 11px 11px;
+}
+.method-card{
+  border:1px solid #DCE8ED;
+  border-radius:5px;
+  background:#fff;
+  padding:10px 11px;
+}
+.method-card h3{
+  margin:0 0 4px;
+  color:#07507B;
+  font-size:11.5px;
+}
+.method-card p{
+  margin:0;
+  color:#5B7180;
+  font-size:9.8px;
+  line-height:1.4;
+}
+.method-card strong{color:#405D6D}
+.methodology-footer{
+  margin:0 11px 11px;
+  padding:9px 10px;
+  background:#F7FAFB;
+  border-top:1px solid #E2EDF2;
+  color:#5B7180;
+  font-size:9.8px;
+  line-height:1.4;
+}
+@media(max-width:700px){
+  .methodology-panel{margin-left:14px;margin-right:14px}
+  .methodology-grid{grid-template-columns:1fr}
+}
+
+
+/* PROJECT AT A GLANCE */
+
+/* REFINED PROJECT STORY + EVIDENCE HUB */
+.project-glance{
+  margin:0 24px 14px;
+  overflow:hidden;
+  border-left:4px solid #075B85;
+}
+.project-glance .panel-heading{padding-bottom:7px}
+.project-glance .panel-icon{background:#EAF5F8;color:#075B85}
+.project-glance-grid{grid-template-columns:1.35fr 1.2fr .75fr 1.05fr;gap:0;padding:0 11px 9px}
+.glance-card{border:0;border-top:1px solid #DCE8ED;border-bottom:1px solid #DCE8ED;border-radius:0;background:#FBFDFE;padding:10px 12px;min-height:72px}
+.glance-card+ .glance-card{border-left:1px solid #DCE8ED}
+.glance-label{margin-bottom:5px;color:#6A7C85;font-size:8.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.glance-value{color:#07507B;font-size:10.8px;line-height:1.35;font-weight:650}
+.project-glance-summary{margin:0 11px 11px;padding:9px 11px;background:#F2F8FA;border-left:0;border-radius:4px;color:#496572;font-size:10.5px;line-height:1.4}
+.project-glance-summary strong{color:#07507B}
+
+.evidence-hub{margin:0 24px 18px;overflow:hidden}
+.evidence-hub-grid{display:grid;grid-template-columns:1.25fr repeat(4,minmax(0,1fr));gap:7px;padding:0 11px 11px}
+.evidence-hub-intro{padding:10px 11px;border:1px solid #CFE2EA;border-radius:5px;background:#F3F9FB}
+.evidence-hub-intro h3{margin:0 0 4px;color:#07507B;font-size:12px}
+.evidence-hub-intro p{margin:0;color:#5B7180;font-size:9.7px;line-height:1.38}
+.evidence-link{display:flex;flex-direction:column;justify-content:space-between;min-height:73px;padding:10px 10px;border:1px solid #D7E6EC;border-radius:5px;background:#fff;text-decoration:none;transition:box-shadow .18s ease,border-color .18s ease,transform .18s ease}
+.evidence-link:hover,.evidence-link:focus-visible{border-color:#75B4C9;box-shadow:0 4px 12px rgba(7,91,133,.10);transform:translateY(-1px);outline:none}
+.evidence-link .eyebrow{color:#197FAE;font-size:8.5px;font-weight:800;letter-spacing:.07em;text-transform:uppercase}
+.evidence-link strong{margin-top:4px;color:#07507B;font-size:11px;line-height:1.2}
+.evidence-link span:last-child{margin-top:5px;color:#6A7C85;font-size:9px;line-height:1.2}
+.author-bar{margin:0 24px 24px;padding:10px 13px;border-top:1px solid #D7E6EC;display:flex;align-items:center;justify-content:space-between;gap:12px;color:#617783;font-size:9.5px}
+.author-bar strong{color:#07507B;font-size:10.5px}
+.author-links{display:flex;gap:14px;flex-wrap:wrap}
+.author-links a{color:#075B85;text-decoration:none;font-weight:700}
+.author-links a:hover{text-decoration:underline}
+@media(max-width:900px){
+  .evidence-hub-grid{grid-template-columns:1fr 1fr}
+  .evidence-hub-intro{grid-column:1/-1}
+  .project-glance-grid{grid-template-columns:1fr 1fr}
+  .glance-card:nth-child(3){border-left:0}
+  .glance-card:nth-child(n+3){border-top:0}
+}
+@media(max-width:700px){
+  .project-glance,.evidence-hub{margin-left:14px;margin-right:14px}
+  .project-glance-grid,.evidence-hub-grid{grid-template-columns:1fr}
+  .glance-card+ .glance-card{border-left:0;border-top:1px solid #DCE8ED}
+  .glance-card:nth-child(n+3){border-top:1px solid #DCE8ED}
+  .author-bar{margin-left:14px;margin-right:14px;align-items:flex-start;flex-direction:column}
+}
+
+.project-glance{margin:0 24px 14px}.project-glance-grid{display:grid;grid-template-columns:1.15fr 1.15fr .9fr 1.1fr;gap:7px;padding:0 11px 9px}.glance-card{border:1px solid #DCE8ED;border-radius:5px;background:#fff;padding:9px 10px}.glance-label{margin-bottom:4px;color:#6A7C85;font-size:8.5px;font-weight:800;letter-spacing:.07em;text-transform:uppercase}.glance-value{color:#07507B;font-size:11px;line-height:1.3;font-weight:650}.project-glance-summary{margin:0 11px 10px;padding:8px 10px;background:#F2F8FA;border-left:3px solid #197FAE;color:#496572;font-size:10.5px;line-height:1.4}.project-glance-summary strong{color:#07507B}@media(max-width:700px){.project-glance{margin-left:14px;margin-right:14px}.project-glance-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:1250px) and (min-width:1101px){
+  .kpi{padding-left:11px;padding-right:11px}
+  .kpi-values{font-size:16px}
+  .transfer .kpi-values{font-size:17px}
+  .econ .kpi-values{font-size:15px}
+  .kpi-badge{white-space:nowrap;overflow:visible;font-size:10.5px;padding-left:8px;padding-right:8px}
+}
+
+@media(max-width:1100px){
+  .kpi-row{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .kpi.econ{grid-column:span 2}
+}
+@media(max-width:1050px){
+  .title{font-size:27px}.project{display:none}
+}
+@media(max-width:700px){
+  .header{padding:12px 18px;gap:15px}
+  .people{width:58px;height:58px;flex-basis:58px}
+  .title{font-size:23px;white-space:normal}
+  .subtitle{font-size:14px;white-space:normal}
+  .context{font-size:11px;white-space:normal}
+  .kpi-row{grid-template-columns:1fr;padding:14px}
+  .kpi.econ{grid-column:auto}
+}
+
+/* simple line icons */
+.icon-food:before{content:"🍴";font-size:25px}
+.icon-bowl:before{content:"⌂";font-size:27px}
+.icon-group:before{content:"●";font-size:18px;letter-spacing:-3px}
+.icon-cash:before{content:"▣";font-size:25px}
+.icon-coins:before{content:"◉";font-size:25px}
+
+.main-grid{
+  display:grid;
+  grid-template-columns:minmax(0,2.02fr) minmax(330px,1fr);
+  gap:10px;
+  padding:0 24px 18px;
+}
+.panel{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:6px;
+  overflow:hidden;
+}
+.panel-heading{
+  min-height:65px;
+  display:flex;
+  align-items:center;
+  gap:11px;
+  padding:11px 13px 9px;
+}
+.panel-heading h2{
+  margin:0;
+  color:#07507B;
+  font-size:19px;
+  line-height:1.1;
+}
+.panel-heading p{
+  margin:5px 0 0;
+  color:#47718B;
+  font-size:12px;
+  line-height:1.15;
+}
+.panel-icon{
+  width:43px;height:43px;flex:0 0 43px;border-radius:50%;
+  background:#1679A1;color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;letter-spacing:-3px;
+}
+.cash-panel-icon{font-size:22px;letter-spacing:0;background:#187A9C}
+.outcome-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  padding:0 11px 11px;
+}
+.chart-card{
+  border:1px solid #CFE6F0;
+  border-radius:5px;
+  padding:10px 10px 9px;
+  min-width:0;
+}
+.chart-card h3,.cash-card h3{
+  margin:0 0 5px;
+  color:#07507B;
+  font-size:14px;
+  line-height:1.2;
+}
+.chart-area{
+  display:grid;
+  grid-template-columns:minmax(0,1.55fr) minmax(105px,.75fr);
+  align-items:center;
+  gap:8px;
+}
+.chart-area svg{
+  width:100%;
+  height:auto;
+  display:block;
+}
+.interpretation{
+  min-height:105px;
+  border-radius:8px;
+  background:#E8F8F4;
+  padding:12px 10px;
+  color:#287265;
+  font-size:12px;
+  line-height:1.55;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+.interpretation.blue{
+  background:#EEF8FB;
+  color:#246A82;
+}
+.interpretation .direction{
+  font-size:28px;
+  line-height:1;
+  font-weight:700;
+  margin-bottom:6px;
+}
+.cash-panel{
+  padding-bottom:10px;
+}
+.cash-card{
+  margin:0 11px 9px;
+  border:1px solid #CFE6F0;
+  border-radius:5px;
+  padding:9px 10px 10px;
+}
+.cash-card h3 span{
+  font-weight:400;
+  color:#547080;
+}
+.cash-delivery{
+  display:grid;
+  grid-template-columns:145px 1fr;
+  align-items:center;
+  gap:7px;
+  min-height:145px;
+}
+.donut-wrap{
+  display:flex;
+  justify-content:center;
+}
+.donut{
+  width:118px;height:118px;border-radius:50%;
+  background:conic-gradient(#168F88 0 83.33%, #F4A126 83.33% 93.33%, #D84B4B 93.33% 100%);
+  position:relative;
+  display:flex;align-items:center;justify-content:center;
+}
+.donut:after{
+  content:"";
+  width:70px;height:70px;border-radius:50%;background:#fff;
+  position:absolute;
+}
+.donut-center{
+  position:relative;z-index:1;
+  text-align:center;color:#075B85;
+  display:flex;flex-direction:column;align-items:center;
+  line-height:1.05;
+}
+.donut-center strong{font-size:19px}
+.donut-center span{font-size:12px;font-weight:700;margin-top:2px}
+.donut-center small{font-size:9px;margin-top:4px}
+.legend{display:flex;flex-direction:column;gap:13px}
+.legend-row{
+  display:grid;
+  grid-template-columns:13px 1fr auto;
+  gap:7px;
+  align-items:center;
+  color:#315C73;
+  font-size:11px;
+}
+.legend-row strong{color:#075B85;font-weight:600;white-space:nowrap}
+.dot{width:13px;height:13px;border-radius:50%}
+.dot.full{background:#168F88}
+.dot.partial{background:#F4A126}
+.dot.none{background:#D84B4B}
+.access-card{padding-bottom:12px}
+.access-row{
+  display:grid;
+  grid-template-columns:95px 1fr 60px;
+  align-items:center;
+  gap:7px;
+  margin-top:12px;
+  color:#315C73;
+  font-size:10px;
+}
+.access-row strong{
+  color:#075B85;font-size:11px;white-space:nowrap
+}
+.bar-track{
+  height:22px;
+  background:#EEF4F7;
+  border-radius:3px;
+  overflow:hidden;
+}
+.bar{
+  height:100%;
+  min-width:5px;
+  border-radius:3px;
+}
+.bar.success{background:#248F91}
+.bar.problems{background:#D84B4B}
+
+
+@media(max-width:1250px) and (min-width:1101px){
+  .kpi{padding-left:11px;padding-right:11px}
+  .kpi-values{font-size:20px}
+  .transfer .kpi-values{font-size:22px}
+  .econ .kpi-values{font-size:18px}
+  .kpi-change{font-size:13px;padding-left:9px;padding-right:9px}
+  .kpi-badge{font-size:11px;padding-left:9px;padding-right:9px}
+}
+
+@media(max-width:1100px){
+  .main-grid{grid-template-columns:1fr}
+}
+@media(max-width:700px){
+  .outcome-grid{grid-template-columns:1fr}
+  .chart-area{grid-template-columns:1fr}
+  .interpretation{min-height:80px}
+  .cash-delivery{grid-template-columns:125px 1fr}
+}
+
+
+.kpi{cursor:pointer;transition:box-shadow .18s ease,transform .18s ease,border-color .18s ease}
+.kpi:focus-visible,.chart-card:focus-visible,.cash-card:focus-visible{
+  outline:3px solid #A8D8EA;outline-offset:2px
+}
+.kpi.is-selected{
+  border-color:#168F88;
+  box-shadow:0 0 0 3px rgba(22,143,136,.13);
+  transform:translateY(-1px)
+}
+.chart-card,.cash-card{cursor:pointer}
+.chart-card.is-selected,.cash-card.is-selected{
+  border-color:#168F88;
+  box-shadow:0 0 0 3px rgba(22,143,136,.10)
+}
+.interaction-note{
+  margin:0 24px 12px;
+  padding:8px 12px;
+  border:1px solid #D5E9F1;
+  border-radius:5px;
+  background:#F8FCFE;
+  color:#527185;
+  font-size:11px;
+  line-height:1.35;
+}
+.detail-popover{
+  display:none;
+  margin:0 24px 14px;
+  padding:12px 14px;
+  border:1px solid #C9E6F2;
+  border-radius:6px;
+  background:#fff;
+  color:#315C73;
+  font-size:12px;
+  line-height:1.5;
+}
+.detail-popover.show{display:block}
+.detail-popover strong{color:#07507B}
+.detail-popover .close{
+  float:right;
+  border:0;background:transparent;color:#527185;
+  font-size:18px;line-height:1;cursor:pointer;
+}
+@media(prefers-reduced-motion:reduce){
+  .kpi{transition:none}
+}
+
+
+
+/* EVIDENCE & CALCULATION TRACEABILITY */
+.trace-panel{margin:0 24px 18px}.trace-intro{margin:0 11px 9px;color:#526B78;font-size:10.5px;line-height:1.4}.trace-chain{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;padding:0 11px 9px}.trace-step{border:1px solid #D9E7ED;border-radius:5px;background:#fff;padding:9px 10px;min-height:76px;cursor:pointer;transition:.18s ease}.trace-step:hover,.trace-step:focus-visible,.trace-step.is-selected{border-color:#197FAE;box-shadow:0 4px 12px rgba(7,91,133,.10);outline:none}.trace-num{font-size:8.5px;font-weight:800;color:#197FAE;letter-spacing:.06em}.trace-step h3{margin:4px 0 3px;color:#07507B;font-size:11px}.trace-step p{margin:0;color:#5B7180;font-size:9.2px;line-height:1.35}.trace-detail{margin:0 11px 10px;padding:8px 10px;background:#F7FAFB;border-top:1px solid #E2EDF2;color:#526B78;font-size:9.7px;line-height:1.4}.trace-detail strong{color:#07507B}.trace-links{display:flex;flex-wrap:wrap;gap:6px;padding:0 11px 11px}.trace-link{display:inline-flex;align-items:center;gap:5px;border:1px solid #CFE1E8;border-radius:4px;padding:6px 8px;background:#fff;color:#075B85;text-decoration:none;font-size:9px;font-weight:700}.trace-link:hover{border-color:#197FAE;background:#F4FAFC}@media(max-width:800px){.trace-chain{grid-template-columns:1fr 1fr}}@media(max-width:700px){.trace-panel{margin-left:14px;margin-right:14px}.trace-chain{grid-template-columns:1fr}}
+
+/* BILINGUAL SWITCH */
+.language-switch{display:flex;align-items:center;gap:2px;padding:3px;border:1px solid #C9E6F2;border-radius:18px;background:#F4FAFC;flex:0 0 auto;order:3;margin-left:12px}
+.project{order:2}
+.language-switch button{border:0;background:transparent;color:#547080;border-radius:14px;padding:5px 9px;font-size:10px;font-weight:800;letter-spacing:.04em;cursor:pointer;line-height:1}
+.language-switch button.active{background:#075B85;color:#fff;box-shadow:0 2px 6px rgba(7,91,133,.14)}
+.language-switch button:focus-visible{outline:2px solid #A8D8EA;outline-offset:2px}
+
+/* SITUATIONAL BACKSTORY */
+.situation-panel{margin:0 24px 14px;overflow:hidden;border-left:4px solid #168F88}
+.situation-panel .panel-heading{padding-bottom:7px}
+.situation-panel .panel-icon{background:#E8F8F4;color:#168F88;font-size:16px;letter-spacing:0}
+.situation-grid{display:grid;grid-template-columns:1.55fr .95fr .95fr;gap:7px;padding:0 11px 9px}
+.situation-card{border:1px solid #D9E8EE;border-radius:6px;background:#fff;padding:10px 12px;min-height:96px}
+.situation-card.story{background:#F5FBFB;border-color:#CBE8E3}
+.situation-label{margin-bottom:5px;color:#6A7C85;font-size:8.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.situation-card h3{margin:0 0 5px;color:#07507B;font-size:13px;line-height:1.2}
+.situation-card p{margin:0;color:#4B6878;font-size:10.3px;line-height:1.45}
+.situation-strip{margin:0 11px 11px;padding:9px 11px;background:#F2F8FA;border-top:1px solid #D9E8EE;color:#496572;font-size:10.2px;line-height:1.4}
+.situation-strip strong{color:#07507B}
+.story-flow{display:flex;align-items:center;flex-wrap:wrap;gap:5px;margin-top:7px;color:#075B85;font-size:9.5px;font-weight:700}
+.story-node{padding:4px 7px;border:1px solid #C7E3EC;border-radius:12px;background:#fff}
+.story-arrow{color:#7BA3B3;font-weight:800}
+@media(max-width:900px){
+  .situation-grid{grid-template-columns:1fr 1fr}
+  .situation-card.story{grid-column:1/-1}
+}
+@media(max-width:700px){
+  .header{padding-right:18px}
+  .language-switch{margin-left:auto;order:3}
+  .situation-panel{margin-left:14px;margin-right:14px}
+  .situation-grid{grid-template-columns:1fr}
+  .situation-card.story{grid-column:auto}
+  .story-flow{gap:4px}
+}
+
+
+/* EVIDENCE & CALCULATION TRACEABILITY */
+.trace-panel{margin:0 24px 18px}.trace-intro{margin:0 11px 9px;color:#526B78;font-size:10.5px;line-height:1.4}.trace-chain{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;padding:0 11px 9px}.trace-step{border:1px solid #D9E7ED;border-radius:5px;background:#fff;padding:9px 10px;min-height:76px;cursor:pointer;transition:.18s ease}.trace-step:hover,.trace-step:focus-visible,.trace-step.is-selected{border-color:#197FAE;box-shadow:0 4px 12px rgba(7,91,133,.10);outline:none}.trace-num{font-size:8.5px;font-weight:800;color:#197FAE;letter-spacing:.06em}.trace-step h3{margin:4px 0 3px;color:#07507B;font-size:11px}.trace-step p{margin:0;color:#5B7180;font-size:9.2px;line-height:1.35}.trace-detail{margin:0 11px 10px;padding:8px 10px;background:#F7FAFB;border-top:1px solid #E2EDF2;color:#526B78;font-size:9.7px;line-height:1.4}.trace-detail strong{color:#07507B}.trace-links{display:flex;flex-wrap:wrap;gap:6px;padding:0 11px 11px}.trace-link{display:inline-flex;align-items:center;gap:5px;border:1px solid #CFE1E8;border-radius:4px;padding:6px 8px;background:#fff;color:#075B85;text-decoration:none;font-size:9px;font-weight:700}.trace-link:hover{border-color:#197FAE;background:#F4FAFC}@media(max-width:800px){.trace-chain{grid-template-columns:1fr 1fr}}@media(max-width:700px){.trace-panel{margin-left:14px;margin-right:14px}.trace-chain{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <svg class="people" viewBox="0 0 100 100" aria-label="Household group icon">
+    <circle cx="50" cy="25" r="13" fill="#075B85"/>
+    <circle cx="22" cy="35" r="9" fill="#2A6D94"/>
+    <circle cx="78" cy="35" r="9" fill="#2A6D94"/>
+    <path d="M28 86V56c0-13 10-23 22-23s22 10 22 23v30H58V61H42v25z" fill="#075B85"/>
+    <path d="M8 86V61c0-9 6-16 15-16 5 0 9 2 12 6-4 4-7 10-7 17v18H8z" fill="#2A6D94"/>
+    <path d="M92 86V61c0-9-6-16-15-16-5 0-9 2-12 6 4 4 7 10 7 17v18h20z" fill="#2A6D94"/>
+  </svg>
+
+  <div class="copy">
+    <h1 class="title">MPCA Flood Response | MEAL Decision Dashboard</h1>
+    <div class="subtitle">From evidence to findings, decisions and action</div>
+    <div class="context">
+      Coastal Côte d’Ivoire <span>|</span> Baseline → Follow-up <span>|</span> 60 households (panel)
+    </div>
+  </div>
+
+  <div class="language-switch" role="group" aria-label="Language selector">
+    <button type="button" class="active" data-lang="en" aria-pressed="true">EN</button>
+    <button type="button" data-lang="fr" aria-pressed="false">FR</button>
+  </div>
+
+  <div class="project">
+    <svg class="ci-mark" viewBox="0 0 48 58" aria-label="Côte d'Ivoire marker">
+      <path d="M27 4 C34 5 40 10 41 17 C42 22 39 26 36 30 C33 34 34 39 30 43 C27 46 26 50 22 53 C19 48 16 45 17 40 C18 36 15 33 17 29 C19 25 17 21 20 17 C22 14 21 9 27 4Z" fill="#168F88"/>
+      <path d="M27 4 C34 5 40 10 41 17 C40 19 37 20 35 21 C31 23 30 28 27 30 C25 31 22 30 20 28 C19 24 17 21 20 17 C22 14 21 9 27 4Z" fill="#55B8A7"/>
+      <path d="M35 21 C32 24 31 28 27 30 C25 31 22 30 20 28 C22 33 25 34 28 33 C32 31 34 27 36 24Z" fill="#0B7890"/>
+      <circle cx="29" cy="20" r="2.1" fill="#fff" opacity=".9"/>
+    </svg>
+    <div>
+      <div class="project-title">MPCA FLOOD RESPONSE</div>
+      <div class="project-meta">Coastal Côte d’Ivoire&nbsp; | &nbsp;Simulated portfolio</div>
+    </div>
+  </div>
+</header>
+
+
+<section class="panel situation-panel">
+  <div class="panel-heading">
+    <div class="panel-icon">!</div>
+    <div>
+      <h2>Situation &amp; Response Context</h2>
+      <p>Why the response was needed, what it aimed to change, and what the MEAL cycle examined</p>
+    </div>
+  </div>
+  <div class="situation-grid">
+    <article class="situation-card story">
+      <div class="situation-label">The situation</div>
+      <h3>Flooding created an immediate household purchasing-power problem</h3>
+      <p>During the flood season, flooding in coastal Côte d’Ivoire disrupted livelihoods and reduced vulnerable households’ ability to meet essential food and basic needs. The response therefore addressed an immediate need for purchasing power, while the programme logic also depended on functioning markets, available goods and sufficiently stable prices.</p>
+    </article>
+    <article class="situation-card">
+      <div class="situation-label">The response</div>
+      <h3>Multipurpose Cash Assistance</h3>
+      <p>The simulated response targeted <strong>60 eligible flood-affected households</strong> and planned a <strong>100,000 FCFA</strong> transfer through a cash transfer mechanism.</p>
+    </article>
+    <article class="situation-card">
+      <div class="situation-label">The MEAL lens</div>
+      <h3>From delivery to household outcomes</h3>
+      <p>The panel followed the same 60-household sample from baseline to follow-up to examine food consumption, food-related coping, economic capacity, transfer delivery and cash access.</p>
+    </article>
+  </div>
+  <div class="situation-strip">
+    <strong>Programme logic shown in this portfolio:</strong>
+    <div class="story-flow">
+      <span class="story-node">Flood shock</span><span class="story-arrow">→</span>
+      <span class="story-node">Reduced purchasing power</span><span class="story-arrow">→</span>
+      <span class="story-node">MPCA received</span><span class="story-arrow">→</span>
+      <span class="story-node">Greater ability to purchase essentials</span><span class="story-arrow">→</span>
+      <span class="story-node">Improved ability to meet food needs</span>
+    </div>
+  </div>
+</section>
+
+<section class="panel project-glance">
+  <div class="panel-heading"><div class="panel-icon">+</div><div><h2>Project at a Glance</h2><p>What the response was designed to address and what the MEAL dashboard assesses</p></div></div>
+  <div class="project-glance-grid">
+    <article class="glance-card"><div class="glance-label">Project need</div><div class="glance-value">Flooding disrupted livelihoods and households' ability to meet essential needs.</div></article>
+    <article class="glance-card"><div class="glance-label">Response</div><div class="glance-value">Multipurpose Cash Assistance for eligible flood-affected households.</div></article>
+    <article class="glance-card"><div class="glance-label">Target</div><div class="glance-value">60 eligible households<br>Coastal Côte d'Ivoire</div></article>
+    <article class="glance-card"><div class="glance-label">MEAL scope</div><div class="glance-value">Baseline → Follow-up<br>Outcomes + delivery + access</div></article>
+  </div>
+  <div class="project-glance-summary"><strong>Response purpose:</strong> support vulnerable flood-affected households' ability to meet essential food and basic needs during the flood season.</div>
+</section>
+<section class="kpi-row" aria-label="Headline MEAL indicators">
+
+  <article class="kpi fcs" tabindex="0" role="button" data-detail="FCS: acceptable households increased from 86.67% at baseline to 93.33% at follow-up, a descriptive change of +6.66 percentage points. Target: ≥90%.">
+    <div class="kpi-top">
+      <div class="kpi-icon icon-food"></div>
+      <div class="kpi-label">Food Consumption (FCS)</div>
+    </div>
+    <div class="kpi-values">86.67% <span class="arrow">→</span> 93.33%</div>
+    <div class="kpi-sub">Baseline <span class="follow-label">Follow-up</span></div>
+    <div class="kpi-status">
+      <div class="kpi-change good"><span class="arrow-up">▲</span>+6.66 pp</div>
+      <div class="kpi-badge met">MET</div>
+    </div>
+  </article>
+
+  <article class="kpi mean" tabindex="0" role="button" data-detail="Mean FCS increased from 47.71 to 53.58. This is supporting descriptive evidence; no separate PMP target is assigned to the mean score.">
+    <div class="kpi-top">
+      <div class="kpi-icon icon-bowl"></div>
+      <div class="kpi-label">Mean FCS <span style="font-weight:400">(score)</span></div>
+    </div>
+    <div class="kpi-values">47.71 <span class="arrow">→</span> 53.58</div>
+    <div class="kpi-sub">Baseline <span class="follow-label">Follow-up</span></div>
+    <div class="kpi-status">
+      <div class="kpi-change neutral"><span class="arrow-up">▲</span>+5.87</div>
+      <div class="kpi-badge descriptive">CHANGE</div>
+    </div>
+  </article>
+
+  <article class="kpi rcsi" tabindex="0" role="button" data-detail="Mean rCSI decreased from 10.47 to 8.15, a descriptive change of −2.32. Lower rCSI indicates less reliance on the measured food-related coping strategies. Target: ≤9.">
+    <div class="kpi-top">
+      <div class="kpi-icon icon-group"></div>
+      <div class="kpi-label">rCSI <span style="font-weight:400">(lower is better)</span></div>
+    </div>
+    <div class="kpi-values">10.47 <span class="arrow">→</span> 8.15</div>
+    <div class="kpi-sub">Baseline <span class="follow-label">Follow-up</span></div>
+    <div class="kpi-status">
+      <div class="kpi-change good"><span class="arrow-up">▼</span>−2.32</div>
+      <div class="kpi-badge met">MET</div>
+    </div>
+  </article>
+
+  <article class="kpi transfer" tabindex="0" role="button" data-detail="Full transfer delivery was 83.33% (50/60 households), below the programme target of ≥90%. There were 6 partial transfers and 4 non-receipts.">
+    <div class="kpi-top">
+      <div class="kpi-icon icon-cash"></div>
+      <div class="kpi-label">Full Transfer Delivery</div>
+    </div>
+    <div class="kpi-values">83.33%</div>
+    <div class="kpi-sub">(50/60 households)</div>
+    <div class="kpi-status">
+      <div class="kpi-change issue"><span class="arrow-up">!</span>Below target</div>
+      <div class="kpi-badge not-met">NOT MET</div>
+    </div>
+  </article>
+
+  <article class="kpi econ" tabindex="0" role="button" data-detail="Monthly per-capita economic capacity increased from 58,731 to 68,290 FCFA. MEB/SMEB adequacy remains TBD because no contextual threshold is available.">
+    <div class="kpi-top">
+      <div class="kpi-icon icon-coins"></div>
+      <div class="kpi-label">Economic Capacity</div>
+    </div>
+    <div class="kpi-values">58,731 <span class="arrow">→</span> 68,290</div>
+    <div class="kpi-sub">FCFA per capita/month</div>
+    <div class="kpi-status">
+      <div class="kpi-change tbd"><span class="arrow-up">?</span>TBD</div>
+      <div class="kpi-badge tbd">TBD <span class="small">(MEB/SMEB adequacy)</span></div>
+    </div>
+  </article>
+
+</section>
+
+
+
+<div class="interaction-note">
+  <strong>Interactive dashboard:</strong> select a KPI or evidence card to focus the related evidence and interpretation.
+</div>
+<div id="detail-popover" class="detail-popover" aria-live="polite">
+  <button class="close" type="button" aria-label="Close detail">×</button>
+  <div id="detail-content"></div>
+</div>
+<section class="main-grid">
+
+  <section class="panel household-panel">
+    <div class="panel-heading">
+      <div class="panel-icon">●●●</div>
+      <div>
+        <h2>Household Outcomes</h2>
+        <p>Descriptive change from baseline to follow-up (no causal attribution)</p>
+      </div>
+    </div>
+
+    <div class="outcome-grid">
+
+      <article class="chart-card" tabindex="0" role="button" data-detail="FCS comparison: 86.67% acceptable at baseline versus 93.33% at follow-up. Descriptive before/after evidence only; it does not establish causal attribution.">
+        <h3>Food Consumption Score (FCS)</h3>
+        <div class="chart-area">
+          <svg viewBox="0 0 420 205" role="img" aria-label="FCS increased from 86.67 percent to 93.33 percent">
+            <line x1="52" y1="25" x2="52" y2="168" stroke="#B8D2DE"/>
+            <line x1="52" y1="168" x2="270" y2="168" stroke="#B8D2DE"/>
+            <line x1="52" y1="132" x2="270" y2="132" stroke="#E2EDF2"/>
+            <line x1="52" y1="96" x2="270" y2="96" stroke="#E2EDF2"/>
+            <line x1="52" y1="60" x2="270" y2="60" stroke="#E2EDF2"/>
+            <text x="17" y="172" fill="#547080" font-size="12">0</text>
+            <text x="8" y="136" fill="#547080" font-size="12">25</text>
+            <text x="8" y="100" fill="#547080" font-size="12">50</text>
+            <text x="8" y="64" fill="#547080" font-size="12">75</text>
+            <text x="8" y="29" fill="#547080" font-size="12">100</text>
+            <line x1="95" y1="73" x2="235" y2="48" stroke="#168F88" stroke-width="4"/>
+            <circle cx="95" cy="73" r="6" fill="#168F88"/>
+            <circle cx="235" cy="48" r="6" fill="#168F88"/>
+            <text x="67" y="59" fill="#075B85" font-size="15" font-weight="700">86.67%</text>
+            <text x="210" y="35" fill="#075B85" font-size="15" font-weight="700">93.33%</text>
+            <text x="71" y="191" fill="#315C73" font-size="12">Baseline</text>
+            <text x="208" y="191" fill="#315C73" font-size="12">Follow-up</text>
+          </svg>
+
+          <div class="interpretation positive">
+            <div class="direction">↗</div>
+            <div>Food consumption improved descriptively among households.</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="chart-card" tabindex="0" role="button" data-detail="rCSI comparison: mean score decreased from 10.47 to 8.15. This is descriptive before/after evidence only.">
+        <h3>Reduced Coping Strategies Index (rCSI)</h3>
+        <div class="chart-area">
+          <svg viewBox="0 0 420 205" role="img" aria-label="rCSI decreased from 10.47 to 8.15">
+            <line x1="52" y1="25" x2="52" y2="168" stroke="#B8D2DE"/>
+            <line x1="52" y1="168" x2="270" y2="168" stroke="#B8D2DE"/>
+            <line x1="52" y1="120" x2="270" y2="120" stroke="#E2EDF2"/>
+            <line x1="52" y1="72" x2="270" y2="72" stroke="#E2EDF2"/>
+            <line x1="52" y1="25" x2="270" y2="25" stroke="#E2EDF2"/>
+            <text x="17" y="172" fill="#547080" font-size="12">0</text>
+            <text x="17" y="124" fill="#547080" font-size="12">5</text>
+            <text x="11" y="76" fill="#547080" font-size="12">10</text>
+            <text x="11" y="29" fill="#547080" font-size="12">15</text>
+            <line x1="95" y1="68" x2="235" y2="91" stroke="#197FAE" stroke-width="4"/>
+            <circle cx="95" cy="68" r="6" fill="#197FAE"/>
+            <circle cx="235" cy="91" r="6" fill="#197FAE"/>
+            <text x="77" y="53" fill="#075B85" font-size="15" font-weight="700">10.47</text>
+            <text x="217" y="110" fill="#075B85" font-size="15" font-weight="700">8.15</text>
+            <text x="71" y="191" fill="#315C73" font-size="12">Baseline</text>
+            <text x="208" y="191" fill="#315C73" font-size="12">Follow-up</text>
+          </svg>
+
+          <div class="interpretation positive blue">
+            <div class="direction">↓</div>
+            <div>Food-related coping strategies decreased (descriptive change).</div>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <section class="panel cash-panel">
+    <div class="panel-heading">
+      <div class="panel-icon cash-panel-icon">▣</div>
+      <div>
+        <h2>Cash Delivery &amp; Access</h2>
+      </div>
+    </div>
+
+    <article class="cash-card" tabindex="0" role="button" data-detail="Transfer delivery among 60 households: 50 full transfers (83.33%), 6 partial transfers (10.00%), and 4 non-receipts (6.67%).">
+      <h3>Transfer delivery status <span>(n = 60)</span></h3>
+      <div class="cash-delivery">
+        <div class="donut-wrap">
+          <div class="donut">
+            <div class="donut-center">
+              <strong>50</strong>
+              <span>83.33%</span>
+              <small>received full<br>transfer</small>
+            </div>
+          </div>
+        </div>
+        <div class="legend">
+          <div class="legend-row">
+            <span class="dot full"></span>
+            <span>Full transfer</span>
+            <strong>50 (83.33%)</strong>
+          </div>
+          <div class="legend-row">
+            <span class="dot partial"></span>
+            <span>Partial transfer</span>
+            <strong>6 (10.00%)</strong>
+          </div>
+          <div class="legend-row">
+            <span class="dot none"></span>
+            <span>Non-receipt</span>
+            <strong>4 (6.67%)</strong>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="cash-card access-card" tabindex="0" role="button" data-detail="Cash access among the 56 assisted households: 53 successful access cases (94.64%) and 3 access problems (5.36%).">
+      <h3>Cash access <span>(n = 56)</span></h3>
+      <div class="access-row">
+        <span>Successful access</span>
+        <div class="bar-track"><div class="bar success" style="width:94.64%"></div></div>
+        <strong>53 (94.6%)</strong>
+      </div>
+      <div class="access-row">
+        <span>Access problems</span>
+        <div class="bar-track"><div class="bar problems" style="width:5.36%"></div></div>
+        <strong>3 (5.4%)</strong>
+      </div>
+    </article>
+  </section>
+
+</section>
+
+
+<section class="panel economic-panel">
+  <div class="panel-heading">
+    <div class="panel-icon">◉</div>
+    <div>
+      <h2>Economic Capacity</h2>
+      <p>Observed change in monthly per-capita economic capacity</p>
+    </div>
+  </div>
+
+  <div class="economic-content">
+    <article class="economic-card" tabindex="0" role="button"
+      data-detail="Monthly per-capita economic capacity increased from 58,731 FCFA at baseline to 68,290 FCFA at follow-up, a descriptive increase of 9,559 FCFA. Adequacy cannot be assessed because no contextual MEB/SMEB threshold is available.">
+      <h3>Monthly per-capita economic capacity</h3>
+      <div class="econ-chart">
+        <div class="econ-period">Baseline</div>
+        <div class="econ-bar-area">
+          <div class="econ-bar-row">
+            <div class="econ-track"><div class="econ-bar" style="width:86%"></div></div>
+          </div>
+          <div class="econ-bar-row">
+            <div class="econ-track"><div class="econ-bar follow" style="width:100%"></div></div>
+          </div>
+        </div>
+        <div class="econ-bar-area">
+          <div class="econ-bar-value">58,731 FCFA</div>
+          <div class="econ-bar-value">68,290 FCFA</div>
+        </div>
+        <div class="econ-period">Follow-up</div>
+        <div class="econ-change">
+          <strong>+9,559</strong>
+          FCFA per capita/month
+        </div>
+      </div>
+    </article>
+
+    <article class="econ-note" tabindex="0" role="button"
+      data-detail="Economic-capacity adequacy remains TBD. The portfolio does not contain a contextual MEB/SMEB threshold, so no adequacy percentage or threshold-based conclusion is presented.">
+      <span class="note-label">TBD</span>
+      <div><strong>Adequacy cannot yet be assessed.</strong></div>
+      <div>No contextual MEB/SMEB threshold is available in the evidence base.</div>
+    </article>
+  </div>
+
+  <div class="economic-footnote">
+    Descriptive before/after evidence only. The observed increase does not by itself establish that MPCA caused the change.
+  </div>
+</section>
+
+
+<section class="panel findings-panel">
+  <div class="panel-heading">
+    <div class="panel-icon">✓</div>
+    <div>
+      <h2>Main Findings</h2>
+      <p>Evidence-based interpretation from the locked Stage 09 findings</p>
+    </div>
+  </div>
+
+  <div class="findings-grid">
+
+    <article class="finding-card" tabindex="0" role="button"
+      data-detail="F01 — Food consumption status improved descriptively: acceptable FCS increased from 86.67% at baseline to 93.33% at follow-up, a +6.67 percentage-point change. This does not establish causal attribution.">
+      <div class="finding-number">F01</div>
+      <div>
+        <h3>Food consumption status improved</h3>
+        <p>Acceptable FCS increased from 86.67% to 93.33% (+6.67 pp).</p>
+        <span class="finding-tag">Household outcome</span>
+      </div>
+    </article>
+
+    <article class="finding-card" tabindex="0" role="button"
+      data-detail="F02 — Food-related coping decreased: mean rCSI fell from 10.47 at baseline to 8.15 at follow-up, a -2.32 change. This is descriptive before/after evidence only.">
+      <div class="finding-number">F02</div>
+      <div>
+        <h3>Food-related coping decreased</h3>
+        <p>Mean rCSI fell from 10.47 to 8.15 (-2.32).</p>
+        <span class="finding-tag">Household outcome</span>
+      </div>
+    </article>
+
+    <article class="finding-card attention" tabindex="0" role="button"
+      data-detail="F03 — Economic capacity increased but adequacy remains unclassified: monthly per-capita economic capacity increased from 58,731 to 68,290 FCFA. A contextual MEB/SMEB threshold is required before adequacy can be assessed.">
+      <div class="finding-number">F03</div>
+      <div>
+        <h3>Economic capacity increased, adequacy TBD</h3>
+        <p>58,731 → 68,290 FCFA per capita/month; no contextual threshold is available.</p>
+        <span class="finding-tag">Measurement gap</span>
+      </div>
+    </article>
+
+    <article class="finding-card attention" tabindex="0" role="button"
+      data-detail="F04 — Full-transfer delivery was below target: 50 of 60 eligible households received the planned amount in full (83.33%), below the programme target of at least 90%. There were 6 partial transfers and 4 non-receipts.">
+      <div class="finding-number">F04</div>
+      <div>
+        <h3>Full-transfer delivery below target</h3>
+        <p>83.33% received the planned amount in full, below the ≥90% target.</p>
+        <span class="finding-tag">Operational issue</span>
+      </div>
+    </article>
+
+    <article class="finding-card" tabindex="0" role="button"
+      data-detail="F05 — Cash access broadly succeeded among the 56 assisted households: 53 reported successful access (94.64%), while 3 reported access problems (5.36%).">
+      <div class="finding-number">F05</div>
+      <div>
+        <h3>Cash access broadly succeeded</h3>
+        <p>53 of 56 assisted households accessed cash successfully (94.64%).</p>
+        <span class="finding-tag">Operational performance</span>
+      </div>
+    </article>
+
+    <article class="finding-card attention" tabindex="0" role="button"
+      data-detail="F06 — Four eligible households did not receive MPCA. Overall, 56 of 60 eligible households received some amount of assistance; 4 did not receive a transfer.">
+      <div class="finding-number">F06</div>
+      <div>
+        <h3>Four eligible households did not receive MPCA</h3>
+        <p>56 of 60 received some assistance; 4 eligible households did not.</p>
+        <span class="finding-tag">Delivery gap</span>
+      </div>
+    </article>
+
+    <article class="finding-card attention" tabindex="0" role="button"
+      data-detail="F07 — Several planned follow-up indicators were not assessable. Gaps include delivery timeframe, targeting-verification denominator, and communication/feedback indicators. These are measurement gaps, not assumptions about programme performance.">
+      <div class="finding-number">F07</div>
+      <div>
+        <h3>Some planned indicators were not assessable</h3>
+        <p>Delivery timeframe, targeting verification, and communication/feedback measures need stronger evidence.</p>
+        <span class="finding-tag">Measurement gap</span>
+      </div>
+    </article>
+
+  </div>
+
+  <div class="findings-note">
+    Findings are derived from the locked Stage 09 evidence base. Selecting a finding opens its supporting evidence detail.
+  </div>
+</section>
+
+
+<section class="panel actions-panel">
+  <div class="panel-heading">
+    <div class="panel-icon">→</div>
+    <div>
+      <h2>Management Actions</h2>
+      <p>Planned responses linked to the locked Stage 09 findings</p>
+    </div>
+  </div>
+
+  <div class="actions-grid">
+
+    <article class="action-card" tabindex="0" role="button"
+      data-detail="A01 — Review FCS results by community and vulnerability characteristics to identify where weaker food consumption outcomes may remain concentrated. This is a planned management action, not an observed finding.">
+      <div class="action-number">A01</div>
+      <div>
+        <h3>Review FCS by community and vulnerability</h3>
+        <p>Check where weaker food consumption outcomes may remain concentrated.</p>
+        <span class="action-link">Responds to F01</span>
+      </div>
+    </article>
+
+    <article class="action-card" tabindex="0" role="button"
+      data-detail="A02 — Disaggregate rCSI and flag higher-risk groups for management attention. The purpose is to identify where food-related coping remains elevated and may require closer follow-up.">
+      <div class="action-number">A02</div>
+      <div>
+        <h3>Disaggregate rCSI and flag higher-risk groups</h3>
+        <p>Identify groups where food-related coping remains elevated.</p>
+        <span class="action-link">Responds to F02</span>
+      </div>
+    </article>
+
+    <article class="action-card" tabindex="0" role="button"
+      data-detail="A03 — Obtain and validate the applicable contextual MEB/SMEB threshold, then assess the proportion of households whose monthly per-capita economic capacity is at or above that threshold.">
+      <div class="action-number">A03</div>
+      <div>
+        <h3>Validate MEB/SMEB before assessing adequacy</h3>
+        <p>Obtain the contextual threshold needed to classify economic capacity.</p>
+        <span class="action-link">Responds to F03</span>
+      </div>
+    </article>
+
+    <article class="action-card" tabindex="0" role="button"
+      data-detail="A04 — Reconcile the 6 partial transfers and 4 non-receipts using payment records and programme records, then follow up discrepancies through the appropriate operational process.">
+      <div class="action-number">A04</div>
+      <div>
+        <h3>Reconcile partial transfers and non-receipts</h3>
+        <p>Review 6 partial transfers and 4 non-receipts against payment records.</p>
+        <span class="action-link">Responds to F04</span>
+      </div>
+    </article>
+
+    <article class="action-card" tabindex="0" role="button"
+      data-detail="A05 — Investigate the 3 cash-access problem cases to understand the reported barriers and determine appropriate operational follow-up.">
+      <div class="action-number">A05</div>
+      <div>
+        <h3>Investigate cash-access problem cases</h3>
+        <p>Review the 3 reported access problems and determine follow-up.</p>
+        <span class="action-link">Responds to F05</span>
+      </div>
+    </article>
+
+    <article class="action-card" tabindex="0" role="button"
+      data-detail="A06 — Trace the 4 eligible non-receipt cases to establish what happened to each case and whether corrective operational action is required.">
+      <div class="action-number">A06</div>
+      <div>
+        <h3>Trace the 4 eligible non-receipt cases</h3>
+        <p>Follow each non-receipt case through the delivery records.</p>
+        <span class="action-link">Responds to F06</span>
+      </div>
+    </article>
+
+    <article class="action-card" tabindex="0" role="button"
+      data-detail="A07 — Restore or define the missing delivery-timeframe, targeting-verification, and communication/feedback variables, including clear denominators and measurement timing, so planned indicators can be assessed in future follow-up rounds.">
+      <div class="action-number">A07</div>
+      <div>
+        <h3>Restore missing measurement fields and timing</h3>
+        <p>Strengthen delivery-timeframe, targeting, communication, and feedback evidence.</p>
+        <span class="action-link">Responds to F07</span>
+      </div>
+    </article>
+
+  </div>
+
+  <div class="action-note">
+    These are planned management responses, not observed results. Selecting an action opens the corresponding response detail.
+  </div>
+</section>
+
+
+
+<section class="panel evidence-hub">
+  <div class="panel-heading">
+    <div class="panel-icon">↗</div>
+    <div>
+      <h2>Explore the Evidence</h2>
+      <p>Open the underlying portfolio stages, calculation workbooks and source logic</p>
+    </div>
+  </div>
+  <div class="evidence-hub-grid">
+    <div class="evidence-hub-intro">
+      <h3>How the dashboard numbers were produced</h3>
+      <p><strong>Source data → calculation &amp; indicator analysis → IPTT → findings → dashboard.</strong><br>Use the links to inspect the underlying evidence instead of treating the dashboard as a black box.</p>
+    </div>
+    <a class="evidence-link" href="https://github.com/valentinTe93/MEAL-Portfolio-MPCA-Flood-Response/tree/main/07_Indicator_Analysis" target="_blank" rel="noopener">
+      <span class="eyebrow">Calculations</span><strong>Indicator Analysis</strong><span>Calculation workbooks &amp; indicator logic</span>
+    </a>
+    <a class="evidence-link" href="https://github.com/valentinTe93/MEAL-Portfolio-MPCA-Flood-Response/tree/main/06_Baseline_Dataset" target="_blank" rel="noopener">
+      <span class="eyebrow">Source data</span><strong>Baseline Dataset</strong><span>Clean baseline evidence</span>
+    </a>
+    <a class="evidence-link" href="https://github.com/valentinTe93/MEAL-Portfolio-MPCA-Flood-Response/tree/main/08_Follow_Up" target="_blank" rel="noopener">
+      <span class="eyebrow">Panel data</span><strong>Follow-Up</strong><span>Follow-up evidence &amp; comparison inputs</span>
+    </a>
+    <a class="evidence-link" href="https://github.com/valentinTe93/MEAL-Portfolio-MPCA-Flood-Response/tree/main/09_Findings_and_Decisions" target="_blank" rel="noopener">
+      <span class="eyebrow">Decision use</span><strong>Findings &amp; Decisions</strong><span>IPTT, findings and management actions</span>
+    </a>
+  </div>
+</section>
+
+<section class="panel evidence-action-panel">
+  <div class="panel-heading">
+    <div class="panel-icon">→</div>
+    <div>
+      <h2>Evidence to Action</h2>
+      <p>How the MEAL evidence base supports management use</p>
+    </div>
+  </div>
+
+  <div class="evidence-action-strip">
+
+    <article class="ea-step" tabindex="0" role="button"
+      data-detail="EVIDENCE — Baseline and follow-up indicators, operational delivery records, and the locked IPTT provide the evidence base. Key observed changes include FCS, rCSI, economic capacity, transfer delivery, and cash access.">
+      <div class="ea-number">01 · Evidence</div>
+      <h3>What happened?</h3>
+      <p>Indicators and operational records show observed change and delivery performance.</p>
+    </article>
+
+    <article class="ea-step" tabindex="0" role="button"
+      data-detail="FINDING — Stage 09 interprets the evidence without overstating causality. Examples include improved FCS, lower rCSI, increased economic capacity with adequacy TBD, and delivery gaps affecting full-transfer receipt.">
+      <div class="ea-number">02 · Finding</div>
+      <h3>What does it mean?</h3>
+      <p>Evidence is interpreted into documented findings, with limitations kept visible.</p>
+    </article>
+
+    <article class="ea-step" tabindex="0" role="button"
+      data-detail="DECISION — Management decisions should use the documented findings to determine where review, investigation, reconciliation, or measurement strengthening is required. The dashboard does not invent decisions that were not documented in Stage 09.">
+      <div class="ea-number">03 · Decision</div>
+      <h3>What needs attention?</h3>
+      <p>Findings identify where management review or follow-up is required.</p>
+    </article>
+
+    <article class="ea-step" tabindex="0" role="button"
+      data-detail="ACTION — The seven locked Stage 09 actions provide the planned response: review outcome patterns, validate MEB/SMEB, reconcile delivery gaps, investigate access problems, trace non-receipts, and restore missing measurement fields.">
+      <div class="ea-number">04 · Action</div>
+      <h3>What happens next?</h3>
+      <p>Planned actions translate evidence and findings into a traceable response.</p>
+    </article>
+
+  </div>
+
+  <div class="ea-footnote">
+    Traceability chain: <strong>Indicator result → Finding → Management decision/use → Action → Follow-up evidence.</strong>
+  </div>
+</section>
+
+
+
+<section class="panel trace-panel">
+  <div class="panel-heading">
+    <div class="panel-icon">↗</div>
+    <div><h2>Evidence &amp; Calculation Traceability</h2><p>Follow a dashboard result back to its source, calculation and documented MEAL logic</p></div>
+  </div>
+  <p class="trace-intro">The dashboard is a presentation layer, not a black box. Each headline result can be traced through the evidence chain below.</p>
+  <div class="trace-chain">
+    <article class="trace-step" tabindex="0" role="button" data-detail="SOURCE DATA — Baseline and follow-up household records provide the underlying observations. Operational delivery records provide transfer and cash-access evidence."><div class="trace-num">01 · SOURCE</div><h3>Source data</h3><p>Household and operational records</p></article>
+    <article class="trace-step" tabindex="0" role="button" data-detail="CALCULATION — Indicator calculations apply the documented methodology to source variables. Examples include FCS, rCSI and monthly per-capita economic capacity."><div class="trace-num">02 · CALCULATION</div><h3>Indicator calculation</h3><p>Formula + variables + methodology</p></article>
+    <article class="trace-step" tabindex="0" role="button" data-detail="CONTROL — The IPTT consolidates indicator values, denominators, targets and variance for the portfolio evidence chain."><div class="trace-num">03 · CONTROL</div><h3>IPTT</h3><p>Indicator values and targets</p></article>
+    <article class="trace-step" tabindex="0" role="button" data-detail="INTERPRETATION — Stage 09 converts the evidence into documented findings while preserving uncertainty, denominators and measurement gaps."><div class="trace-num">04 · INTERPRETATION</div><h3>Finding</h3><p>Evidence → interpretation</p></article>
+    <article class="trace-step" tabindex="0" role="button" data-detail="USE — Findings inform management decisions and planned actions. Follow-up evidence can then test whether the information gap or operational issue has been addressed."><div class="trace-num">05 · USE</div><h3>Action + follow-up</h3><p>Decision → action → new evidence</p></article>
+  </div>
+  <div class="trace-detail"><strong>Example:</strong> FCS 93.33% follow-up result → follow-up household dataset → IPTT → F01 → A01.</div>
+  <div class="trace-links">
+    <a class="trace-link" href="https://github.com/valentinTe93/MEAL-Portfolio-MPCA-Flood-Response/tree/main/06_Baseline_Dataset" target="_blank" rel="noopener">↗ Baseline evidence</a>
+    <a class="trace-link" href="https://github.com/valentinTe93/MEAL-Portfolio-MPCA-Flood-Response/tree/main/07_Indicator_Analysis" target="_blank" rel="noopener">↗ Indicator analysis</a>
+    <a class="trace-link" href="https://github.com/valentinTe93/MEAL-Portfolio-MPCA-Flood-Response/tree/main/08_Follow_Up" target="_blank" rel="noopener">↗ Follow-up evidence</a>
+    <a class="trace-link" href="https://github.com/valentinTe93/MEAL-Portfolio-MPCA-Flood-Response/tree/main/09_Findings_and_Decisions" target="_blank" rel="noopener">↗ Findings &amp; decisions</a>
+    <a class="trace-link" href="https://github.com/valentinTe93/MEAL-Portfolio-MPCA-Flood-Response" target="_blank" rel="noopener">↗ Full portfolio</a>
+  </div>
+</section>
+
+<section class="panel methodology-panel">
+  <div class="panel-heading">
+    <div class="panel-icon">i</div>
+    <div>
+      <h2>Methodology &amp; Evidence Notes</h2>
+      <p>Interpretation safeguards that keep the dashboard evidence-led</p>
+    </div>
+  </div>
+
+  <div class="methodology-grid">
+
+    <article class="method-card">
+      <h3>Descriptive comparison</h3>
+      <p>Baseline → follow-up results are presented as <strong>descriptive before/after evidence</strong>. They do not establish that MPCA caused the observed changes.</p>
+    </article>
+
+    <article class="method-card">
+      <h3>Indicator methods</h3>
+      <p><strong>FCS</strong> and <strong>rCSI</strong> use their defined recall periods and scoring methods. Economic capacity follows the documented ECMEN approach.</p>
+    </article>
+
+    <article class="method-card">
+      <h3>Denominators matter</h3>
+      <p>Cash-access indicators use the <strong>56 assisted households</strong> denominator. Transfer-delivery indicators use the <strong>60 eligible-household</strong> panel denominator.</p>
+    </article>
+
+  </div>
+
+  <div class="methodology-footer">
+    <strong>Evidence boundary:</strong> Economic-capacity adequacy remains TBD because no contextual MEB/SMEB threshold is available. Planned actions are management responses, not observed outcomes. Measurement gaps remain visible rather than being filled with assumptions.
+  </div>
+</section>
+
+
+
+<footer class="author-bar">
+  <div><strong>Valentin Te</strong> · MPCA Flood Response MEAL Portfolio · Simulated learning project</div>
+  <nav class="author-links" aria-label="Portfolio links">
+    <a href="https://www.linkedin.com/in/valentinte/" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="https://github.com/valentinTe93/MEAL-Portfolio-MPCA-Flood-Response" target="_blank" rel="noopener">GitHub repository</a>
+  </nav>
+</footer>
+
+
+<script id="bilingual-dashboard-script">
+(() => {
+  const frMap = {"MPCA Flood Response | MEAL Decision Dashboard": "Réponse MPCA aux inondations | Tableau de bord décisionnel MEAL", "From evidence to findings, decisions and action": "Des données probantes aux constats, décisions et actions", "Coastal Côte d’Ivoire": "Côte d’Ivoire côtière", "Baseline → Follow-up": "Baseline → Suivi", "60 households (panel)": "60 ménages (panel)", "MPCA FLOOD RESPONSE": "RÉPONSE MPCA AUX INONDATIONS", "Coastal Côte d’Ivoire | Simulated portfolio": "Côte d’Ivoire côtière | Projet simulé", "Food Consumption (FCS)": "Consommation alimentaire (FCS)", "86.67%": "86,67 %", "93.33%": "93,33 %", "47.71": "47,71", "53.58": "53,58", "10.47": "10,47", "8.15": "8,15", "83.33%": "83,33 %", "58,731": "58 731", "68,290": "68 290", "58,731 FCFA": "58 731 FCFA", "68,290 FCFA": "68 290 FCFA", "50 (83.33%)": "50 (83,33 %)", "6 (10.00%)": "6 (10,00 %)", "4 (6.67%)": "4 (6,67 %)", "53 (94.6%)": "53 (94,6 %)", "3 (5.4%)": "3 (5,4 %)", "Baseline": "Baseline", "Follow-up": "Suivi", "+6.66 pp": "+6,66 pp", "MET": "ATTEINT", "Mean FCS": "FCS moyen", "(score)": "(score)", "+5.87": "+5,87", "CHANGE": "ÉVOLUTION", "rCSI": "rCSI", "(lower is better)": "(plus bas = mieux)", "−2.32": "−2,32", "Full Transfer Delivery": "Versement intégral", "(50/60 households)": "(50/60 ménages)", "Below target": "Sous la cible", "NOT MET": "NON ATTEINT", "Economic Capacity": "Capacité économique", "FCFA per capita/month": "FCFA par habitant/mois", "TBD": "À DÉFINIR", "(MEB/SMEB adequacy)": "(adéquation MEB/SMEB)", "Interactive dashboard:": "Tableau de bord interactif :", "select a KPI or evidence card to focus the related evidence and interpretation.": "sélectionnez une carte KPI ou une carte de preuve pour afficher le détail associé.", "Household Outcomes": "Résultats au niveau des ménages", "Descriptive change from baseline to follow-up (no causal attribution)": "Évolution descriptive entre la baseline et le suivi (sans attribution causale)", "Food Consumption Score (FCS)": "Food Consumption Score (FCS)", "Food consumption improved descriptively among households.": "La consommation alimentaire s’est améliorée de manière descriptive chez les ménages.", "Reduced Coping Strategies Index (rCSI)": "Reduced Coping Strategies Index (rCSI)", "Food-related coping strategies decreased (descriptive change).": "Les stratégies d’adaptation liées à l’alimentation ont diminué (évolution descriptive).", "Cash Delivery & Access": "Versement et accès aux transferts", "Transfer delivery status": "Statut du versement", "received full": "ont reçu le", "transfer": "versement intégral", "Full transfer": "Versement intégral", "Partial transfer": "Versement partiel", "Non-receipt": "Non-réception", "Cash access": "Accès à l’aide en espèces", "Successful access": "Accès réussi", "Access problems": "Problèmes d’accès", "Observed change in monthly per-capita economic capacity": "Évolution observée de la capacité économique mensuelle par habitant", "Monthly per-capita economic capacity": "Capacité économique mensuelle par habitant", "Adequacy cannot yet be assessed.": "L’adéquation ne peut pas encore être évaluée.", "No contextual MEB/SMEB threshold is available in the evidence base.": "Aucun seuil MEB/SMEB contextuel n’est disponible dans la base de preuves.", "Descriptive before/after evidence only. The observed increase does not by itself establish that MPCA caused the change.": "Il s’agit uniquement d’une comparaison descriptive avant/après. L’augmentation observée n’établit pas à elle seule que la MPCA en est la cause.", "Main Findings": "Principaux constats", "Evidence-based interpretation from the locked Stage 09 findings": "Interprétation fondée sur les constats verrouillés de l’étape 09", "Food consumption status improved": "Le statut de consommation alimentaire s’est amélioré", "Acceptable FCS increased from 86.67% to 93.33% (+6.67 pp).": "Le FCS acceptable est passé de 86,67 % à 93,33 % (+6,67 points de pourcentage).", "Household outcome": "Résultat ménage", "Food-related coping decreased": "Les stratégies d’adaptation alimentaires ont diminué", "Mean rCSI fell from 10.47 to 8.15 (-2.32).": "Le rCSI moyen est passé de 10,47 à 8,15 (−2,32).", "Economic capacity increased, adequacy TBD": "La capacité économique a augmenté, adéquation à définir", "58,731 → 68,290 FCFA per capita/month; no contextual threshold is available.": "58 731 → 68 290 FCFA par habitant/mois ; aucun seuil contextuel n’est disponible.", "Measurement gap": "Lacune de mesure", "Full-transfer delivery below target": "Le versement intégral est inférieur à la cible", "83.33% received the planned amount in full, below the ≥90% target.": "83,33 % ont reçu le montant prévu en totalité, en dessous de la cible ≥90 %.", "Operational issue": "Problème opérationnel", "Cash access broadly succeeded": "L’accès à l’aide en espèces a globalement réussi", "53 of 56 assisted households accessed cash successfully (94.64%).": "53 des 56 ménages assistés ont accédé à l’aide en espèces avec succès (94,64 %).", "Operational performance": "Performance opérationnelle", "Four eligible households did not receive MPCA": "Quatre ménages éligibles n’ont pas reçu la MPCA", "56 of 60 received some assistance; 4 eligible households did not.": "56 ménages sur 60 ont reçu une aide ; 4 ménages éligibles n’en ont pas reçu.", "Delivery gap": "Écart de versement", "Some planned indicators were not assessable": "Certains indicateurs prévus n’ont pas pu être évalués", "Delivery timeframe, targeting verification, and communication/feedback measures need stronger evidence.": "Le délai de versement, la vérification du ciblage et les mesures de communication/retours nécessitent des preuves plus solides.", "Findings are derived from the locked Stage 09 evidence base. Selecting a finding opens its supporting evidence detail.": "Les constats proviennent de la base de preuves verrouillée de l’étape 09. Sélectionner un constat ouvre le détail des éléments de preuve associés.", "Management Actions": "Actions de gestion", "Planned responses linked to the locked Stage 09 findings": "Réponses prévues liées aux constats verrouillés de l’étape 09", "Review FCS by community and vulnerability": "Analyser le FCS par communauté et vulnérabilité", "Check where weaker food consumption outcomes may remain concentrated.": "Identifier où des résultats de consommation alimentaire plus faibles peuvent rester concentrés.", "Responds to F01": "Répond à F01", "Disaggregate rCSI and flag higher-risk groups": "Désagréger le rCSI et repérer les groupes à risque plus élevé", "Identify groups where food-related coping remains elevated.": "Identifier les groupes où les stratégies d’adaptation alimentaires restent élevées.", "Responds to F02": "Répond à F02", "Validate MEB/SMEB before assessing adequacy": "Valider le MEB/SMEB avant d’évaluer l’adéquation", "Obtain the contextual threshold needed to classify economic capacity.": "Obtenir le seuil contextuel nécessaire pour classer la capacité économique.", "Responds to F03": "Répond à F03", "Reconcile partial transfers and non-receipts": "Rapprocher les versements partiels et les non-réceptions", "Review 6 partial transfers and 4 non-receipts against payment records.": "Examiner les 6 versements partiels et les 4 non-réceptions à partir des registres de paiement.", "Responds to F04": "Répond à F04", "Investigate cash-access problem cases": "Examiner les cas de problèmes d’accès aux espèces", "Review the 3 reported access problems and determine follow-up.": "Examiner les 3 problèmes d’accès signalés et déterminer le suivi nécessaire.", "Responds to F05": "Répond à F05", "Trace the 4 eligible non-receipt cases": "Tracer les 4 cas éligibles de non-réception", "Follow each non-receipt case through the delivery records.": "Suivre chaque cas de non-réception dans les registres de versement.", "Responds to F06": "Répond à F06", "Restore missing measurement fields and timing": "Rétablir les champs et calendriers de mesure manquants", "Strengthen delivery-timeframe, targeting, communication, and feedback evidence.": "Renforcer les preuves sur le délai de versement, le ciblage, la communication et les retours.", "Responds to F07": "Répond à F07", "These are planned management responses, not observed results. Selecting an action opens the corresponding response detail.": "Il s’agit de réponses de gestion prévues, et non de résultats observés. Sélectionner une action ouvre le détail de la réponse correspondante.", "Evidence to Action": "Des données aux actions", "How the MEAL evidence base supports management use": "Comment la base de preuves MEAL appuie l’utilisation managériale", "01 · Evidence": "01 · Données probantes", "What happened?": "Que s’est-il passé ?", "Indicators and operational records show observed change and delivery performance.": "Les indicateurs et registres opérationnels montrent les évolutions observées et la performance des versements.", "02 · Finding": "02 · Constat", "What does it mean?": "Qu’est-ce que cela signifie ?", "Evidence is interpreted into documented findings, with limitations kept visible.": "Les preuves sont interprétées en constats documentés, en gardant visibles les limites.", "03 · Decision": "03 · Décision", "What needs attention?": "Que faut-il examiner ?", "Findings identify where management review or follow-up is required.": "Les constats indiquent où une revue de gestion ou un suivi est nécessaire.", "04 · Action": "04 · Action", "What happens next?": "Que se passe-t-il ensuite ?", "Planned actions translate evidence and findings into a traceable response.": "Les actions prévues traduisent les preuves et constats en réponse traçable.", "Traceability chain:": "Chaîne de traçabilité :", "Indicator result → Finding → Management decision/use → Action → Follow-up evidence.": "Résultat indicateur → Constat → Décision/utilisation managériale → Action → Preuve de suivi.", "Evidence & Calculation Traceability": "Traçabilité des données et des calculs", "Follow a dashboard result back to its source, calculation and documented MEAL logic": "Remonter d’un résultat du tableau de bord jusqu’à sa source, son calcul et sa logique MEAL documentée", "The dashboard is a presentation layer, not a black box. Each headline result can be traced through the evidence chain below.": "Le tableau de bord est une couche de présentation, pas une boîte noire. Chaque résultat clé peut être retracé dans la chaîne de preuves ci-dessous.", "01 · SOURCE": "01 · SOURCE", "Source data": "Données sources", "Household and operational records": "Registres ménages et opérationnels", "02 · CALCULATION": "02 · CALCUL", "Indicator calculation": "Calcul de l’indicateur", "Formula + variables + methodology": "Formule + variables + méthodologie", "03 · CONTROL": "03 · CONTRÔLE", "Indicator values and targets": "Valeurs des indicateurs et cibles", "04 · INTERPRETATION": "04 · INTERPRÉTATION", "Finding": "Constat", "Evidence → interpretation": "Preuve → interprétation", "05 · USE": "05 · UTILISATION", "Action + follow-up": "Action + suivi", "Decision → action → new evidence": "Décision → action → nouvelle preuve", "Example:": "Exemple :", "FCS 93.33% follow-up result → follow-up household dataset → IPTT → F01 → A01.": "Résultat FCS du suivi 93,33 % → jeu de données ménages du suivi → IPTT → F01 → A01.", "↗ Baseline evidence": "↗ Données de référence", "↗ Indicator analysis": "↗ Analyse des indicateurs", "↗ Follow-up evidence": "↗ Données de suivi", "↗ Findings & decisions": "↗ Constats et décisions", "↗ Full portfolio": "↗ Portfolio complet", "Methodology & Evidence Notes": "Méthodologie et notes sur les preuves", "Interpretation safeguards that keep the dashboard evidence-led": "Garde-fous d’interprétation pour un tableau de bord fondé sur les preuves", "Descriptive comparison": "Comparaison descriptive", "descriptive before/after evidence": "preuve descriptive avant/après", "Indicator methods": "Méthodes des indicateurs", "and": "et", "use their defined recall periods and scoring methods. Economic capacity follows the documented ECMEN approach.": "utilisent leurs périodes de rappel et méthodes de scoring définies. La capacité économique suit l’approche ECMEN documentée.", "Denominators matter": "Les dénominateurs comptent", "Cash-access indicators use the": "Les indicateurs d’accès aux espèces utilisent le dénominateur de", "56 assisted households": "56 ménages assistés", "denominator. Transfer-delivery indicators use the": "ménages. Les indicateurs de versement utilisent le dénominateur de", "60 eligible-household": "60 ménages éligibles", "panel denominator.": "du panel.", "Evidence boundary:": "Limite des preuves :", "Economic-capacity adequacy remains TBD because no contextual MEB/SMEB threshold is available. Planned actions are management responses, not observed outcomes. Measurement gaps remain visible rather than being filled with assumptions.": "L’adéquation de la capacité économique reste à définir faute de seuil MEB/SMEB contextuel. Les actions prévues sont des réponses de gestion et non des résultats observés. Les lacunes de mesure restent visibles plutôt que d’être comblées par des hypothèses.", "MEAL Portfolio · MPCA Flood Response · Coastal Côte d’Ivoire": "Portfolio MEAL · Réponse MPCA aux inondations · Côte d’Ivoire côtière", "LinkedIn": "LinkedIn", "GitHub": "GitHub", "Situation & Response Context": "Situation, réponse et contexte", "Why the response was needed, what it aimed to change, and what the MEAL cycle examined": "Pourquoi la réponse était nécessaire, ce qu’elle visait à changer et ce que le cycle MEAL a examiné", "The situation": "La situation", "Flooding created an immediate household purchasing-power problem": "Les inondations ont créé un problème immédiat de pouvoir d’achat des ménages", "During the flood season, flooding in coastal Côte d’Ivoire disrupted livelihoods and reduced vulnerable households’ ability to meet essential food and basic needs. The response therefore addressed an immediate need for purchasing power, while the programme logic also depended on functioning markets, available goods and sufficiently stable prices.": "Pendant la saison des inondations, les crues dans les zones côtières de Côte d’Ivoire ont perturbé les moyens d’existence et réduit la capacité des ménages vulnérables à couvrir leurs besoins essentiels en nourriture et en biens de base. La réponse a donc ciblé un besoin immédiat de pouvoir d’achat, tandis que la logique du programme dépendait aussi du bon fonctionnement des marchés, de la disponibilité des biens et d’une stabilité suffisante des prix.", "The response": "La réponse", "Multipurpose Cash Assistance": "Assistance en espèces à usages multiples", "The simulated response targeted": "La réponse simulée ciblait", "eligible flood-affected households": "ménages éligibles touchés par les inondations", "and planned a": "et prévoyait un transfert de", "transfer through a cash transfer mechanism.": "via un mécanisme de transfert monétaire.", "The MEAL lens": "La perspective MEAL", "From delivery to household outcomes": "Du versement aux résultats des ménages", "The panel followed the same 60-household sample from baseline to follow-up to examine food consumption, food-related coping, economic capacity, transfer delivery and cash access.": "Le panel a suivi le même échantillon de 60 ménages entre la baseline et le suivi afin d’examiner la consommation alimentaire, les stratégies d’adaptation alimentaires, la capacité économique, le versement et l’accès aux espèces.", "Programme logic shown in this portfolio:": "Logique du programme présentée dans ce portfolio :", "Flood shock": "Choc lié aux inondations", "Reduced purchasing power": "Pouvoir d’achat réduit", "MPCA received": "MPCA reçue", "Greater ability to purchase essentials": "Plus grande capacité à acheter les biens essentiels", "Improved ability to meet food needs": "Meilleure capacité à couvrir les besoins alimentaires", "Project at a Glance": "Le projet en un coup d’œil", "What the response was designed to address and what the MEAL dashboard assesses": "Ce que la réponse visait à traiter et ce que le tableau de bord MEAL évalue", "Project need": "Besoin du projet", "Response": "Réponse", "Target": "Cible", "60 eligible households": "60 ménages éligibles", "MEAL scope": "Périmètre MEAL", "Flooding disrupted livelihoods and households' ability to meet essential needs.": "Les inondations ont perturbé les moyens d’existence et la capacité des ménages à couvrir leurs besoins essentiels.", "Multipurpose Cash Assistance for eligible flood-affected households.": "Assistance en espèces à usages multiples pour les ménages éligibles touchés par les inondations.", "Coastal Côte d'Ivoire": "Côte d’Ivoire côtière", "Outcomes + delivery + access": "Résultats + versement + accès", "Response purpose:": "Objectif de la réponse :", "support vulnerable flood-affected households' ability to meet essential food and basic needs during the flood season.": "soutenir la capacité des ménages vulnérables touchés par les inondations à couvrir leurs besoins essentiels en nourriture et en biens de base pendant la saison des inondations."};
+  const detailFr = {"FCS: acceptable households increased from 86.67% at baseline to 93.33% at follow-up, a descriptive change of +6.66 percentage points. Target: ≥90%.": "FCS : la part des ménages avec un score acceptable est passée de 86,67 % à la baseline à 93,33 % au suivi, soit une évolution descriptive de +6,66 points de pourcentage. Cible : ≥90 %.", "Mean FCS increased from 47.71 to 53.58. This is supporting descriptive evidence; no separate PMP target is assigned to the mean score.": "Le FCS moyen est passé de 47,71 à 53,58. Il s’agit d’une preuve descriptive complémentaire ; aucune cible PMP distincte n’est attribuée au score moyen.", "Mean rCSI decreased from 10.47 to 8.15, a descriptive change of −2.32. Lower rCSI indicates less reliance on the measured food-related coping strategies. Target: ≤9.": "Le rCSI moyen est passé de 10,47 à 8,15, soit une évolution descriptive de −2,32. Un rCSI plus faible indique un moindre recours aux stratégies d’adaptation alimentaires mesurées. Cible : ≤9.", "Full transfer delivery was 83.33% (50/60 households), below the programme target of ≥90%. There were 6 partial transfers and 4 non-receipts.": "Le versement intégral était de 83,33 % (50/60 ménages), en dessous de la cible du programme de ≥90 %. Il y a eu 6 versements partiels et 4 non-réceptions.", "Monthly per-capita economic capacity increased from 58,731 to 68,290 FCFA. MEB/SMEB adequacy remains TBD because no contextual threshold is available.": "La capacité économique mensuelle par habitant est passée de 58 731 à 68 290 FCFA. L’adéquation au MEB/SMEB reste à définir car aucun seuil contextuel n’est disponible.", "FCS comparison: 86.67% acceptable at baseline versus 93.33% at follow-up. Descriptive before/after evidence only; it does not establish causal attribution.": "Comparaison FCS : 86,67 % de FCS acceptable à la baseline contre 93,33 % au suivi. Il s’agit uniquement d’une preuve descriptive avant/après ; elle n’établit pas une attribution causale.", "rCSI comparison: mean score decreased from 10.47 to 8.15. This is descriptive before/after evidence only.": "Comparaison rCSI : le score moyen est passé de 10,47 à 8,15. Il s’agit uniquement d’une preuve descriptive avant/après.", "Transfer delivery among 60 households: 50 full transfers (83.33%), 6 partial transfers (10.00%), and 4 non-receipts (6.67%).": "Versement pour 60 ménages : 50 versements intégraux (83,33 %), 6 versements partiels (10,00 %) et 4 non-réceptions (6,67 %).", "Cash access among the 56 assisted households: 53 successful access cases (94.64%) and 3 access problems (5.36%).": "Accès aux espèces parmi les 56 ménages assistés : 53 accès réussis (94,64 %) et 3 problèmes d’accès (5,36 %).", "Monthly per-capita economic capacity increased from 58,731 FCFA at baseline to 68,290 FCFA at follow-up, a descriptive increase of 9,559 FCFA. Adequacy cannot be assessed because no contextual MEB/SMEB threshold is available.": "La capacité économique mensuelle par habitant est passée de 58 731 FCFA à la baseline à 68 290 FCFA au suivi, soit une augmentation descriptive de 9 559 FCFA. L’adéquation ne peut pas être évaluée car aucun seuil MEB/SMEB contextuel n’est disponible.", "Economic-capacity adequacy remains TBD. The portfolio does not contain a contextual MEB/SMEB threshold, so no adequacy percentage or threshold-based conclusion is presented.": "L’adéquation de la capacité économique reste à définir. Le portfolio ne contient pas de seuil MEB/SMEB contextuel ; aucun pourcentage d’adéquation ni conclusion fondée sur un seuil n’est donc présenté.", "F01 — Food consumption status improved descriptively: acceptable FCS increased from 86.67% at baseline to 93.33% at follow-up, a +6.67 percentage-point change. This does not establish causal attribution.": "F01 — Le statut de consommation alimentaire s’est amélioré de manière descriptive : le FCS acceptable est passé de 86,67 % à la baseline à 93,33 % au suivi, soit +6,67 points de pourcentage. Cela n’établit pas une attribution causale.", "F02 — Food-related coping decreased: mean rCSI fell from 10.47 at baseline to 8.15 at follow-up, a -2.32 change. This is descriptive before/after evidence only.": "F02 — Les stratégies d’adaptation alimentaires ont diminué : le rCSI moyen est passé de 10,47 à la baseline à 8,15 au suivi, soit −2,32. Il s’agit uniquement d’une preuve descriptive avant/après.", "F03 — Economic capacity increased but adequacy remains unclassified: monthly per-capita economic capacity increased from 58,731 to 68,290 FCFA. A contextual MEB/SMEB threshold is required before adequacy can be assessed.": "F03 — La capacité économique a augmenté mais son adéquation reste non classée : la capacité économique mensuelle par habitant est passée de 58 731 à 68 290 FCFA. Un seuil MEB/SMEB contextuel est nécessaire avant d’évaluer l’adéquation.", "F04 — Full-transfer delivery was below target: 50 of 60 eligible households received the planned amount in full (83.33%), below the programme target of at least 90%. There were 6 partial transfers and 4 non-receipts.": "F04 — Le versement intégral était inférieur à la cible : 50 ménages éligibles sur 60 ont reçu le montant prévu en totalité (83,33 %), sous la cible du programme d’au moins 90 %. Il y a eu 6 versements partiels et 4 non-réceptions.", "F05 — Cash access broadly succeeded among the 56 assisted households: 53 reported successful access (94.64%), while 3 reported access problems (5.36%).": "F05 — L’accès aux espèces a globalement réussi parmi les 56 ménages assistés : 53 ont déclaré un accès réussi (94,64 %), tandis que 3 ont signalé des problèmes d’accès (5,36 %).", "F06 — Four eligible households did not receive MPCA. Overall, 56 of 60 eligible households received some amount of assistance; 4 did not receive a transfer.": "F06 — Quatre ménages éligibles n’ont pas reçu la MPCA. Au total, 56 ménages éligibles sur 60 ont reçu un montant quelconque d’aide ; 4 n’ont pas reçu de transfert.", "F07 — Several planned follow-up indicators were not assessable. Gaps include delivery timeframe, targeting-verification denominator, and communication/feedback indicators. These are measurement gaps, not assumptions about programme performance.": "F07 — Plusieurs indicateurs de suivi prévus n’ont pas pu être évalués. Les lacunes concernent notamment le délai de versement, le dénominateur de vérification du ciblage et les indicateurs de communication/retours. Il s’agit de lacunes de mesure, et non d’hypothèses sur la performance du programme.", "A01 — Review FCS results by community and vulnerability characteristics to identify where weaker food consumption outcomes may remain concentrated. This is a planned management action, not an observed finding.": "A01 — Analyser les résultats FCS par communauté et caractéristiques de vulnérabilité afin d’identifier où des résultats de consommation alimentaire plus faibles peuvent rester concentrés. Il s’agit d’une action de gestion prévue, et non d’un constat observé.", "A02 — Disaggregate rCSI and flag higher-risk groups for management attention. The purpose is to identify where food-related coping remains elevated and may require closer follow-up.": "A02 — Désagréger le rCSI et repérer les groupes à risque plus élevé pour l’attention managériale. L’objectif est d’identifier où les stratégies d’adaptation alimentaires restent élevées et peuvent nécessiter un suivi plus rapproché.", "A03 — Obtain and validate the applicable contextual MEB/SMEB threshold, then assess the proportion of households whose monthly per-capita economic capacity is at or above that threshold.": "A03 — Obtenir et valider le seuil MEB/SMEB contextuel applicable, puis évaluer la proportion de ménages dont la capacité économique mensuelle par habitant est égale ou supérieure à ce seuil.", "A04 — Reconcile the 6 partial transfers and 4 non-receipts using payment records and programme records, then follow up discrepancies through the appropriate operational process.": "A04 — Rapprocher les 6 versements partiels et 4 non-réceptions à l’aide des registres de paiement et des registres du programme, puis suivre les écarts via le processus opérationnel approprié.", "A05 — Investigate the 3 cash-access problem cases to understand the reported barriers and determine appropriate operational follow-up.": "A05 — Examiner les 3 cas de problèmes d’accès aux espèces pour comprendre les obstacles signalés et déterminer le suivi opérationnel approprié.", "A06 — Trace the 4 eligible non-receipt cases to establish what happened to each case and whether corrective operational action is required.": "A06 — Tracer les 4 cas éligibles de non-réception afin d’établir ce qui s’est passé pour chaque cas et si une action corrective opérationnelle est nécessaire.", "A07 — Restore or define the missing delivery-timeframe, targeting-verification, and communication/feedback variables, including clear denominators and measurement timing, so planned indicators can be assessed in future follow-up rounds.": "A07 — Rétablir ou définir les variables manquantes relatives au délai de versement, à la vérification du ciblage et à la communication/aux retours, avec des dénominateurs et un calendrier de mesure clairs, afin que les indicateurs prévus puissent être évalués lors des prochains suivis.", "EVIDENCE — Baseline and follow-up indicators, operational delivery records, and the locked IPTT provide the evidence base. Key observed changes include FCS, rCSI, economic capacity, transfer delivery, and cash access.": "DONNÉES PROBANTES — Les indicateurs de baseline et de suivi, les registres opérationnels de versement et l’IPTT verrouillé constituent la base de preuves. Les principales évolutions observées concernent le FCS, le rCSI, la capacité économique, le versement et l’accès aux espèces.", "FINDING — Stage 09 interprets the evidence without overstating causality. Examples include improved FCS, lower rCSI, increased economic capacity with adequacy TBD, and delivery gaps affecting full-transfer receipt.": "CONSTAT — L’étape 09 interprète les preuves sans exagérer la causalité. Les exemples incluent l’amélioration du FCS, la baisse du rCSI, l’augmentation de la capacité économique avec une adéquation à définir, et les écarts de versement affectant la réception intégrale.", "DECISION — Management decisions should use the documented findings to determine where review, investigation, reconciliation, or measurement strengthening is required. The dashboard does not invent decisions that were not documented in Stage 09.": "DÉCISION — Les décisions de gestion doivent s’appuyer sur les constats documentés pour déterminer où une revue, une investigation, un rapprochement ou un renforcement de mesure est requis. Le tableau de bord n’invente pas de décisions qui n’auraient pas été documentées à l’étape 09.", "ACTION — The seven locked Stage 09 actions provide the planned response: review outcome patterns, validate MEB/SMEB, reconcile delivery gaps, investigate access problems, trace non-receipts, and restore missing measurement fields.": "ACTION — Les sept actions verrouillées de l’étape 09 constituent la réponse prévue : analyser les résultats, valider le MEB/SMEB, rapprocher les écarts de versement, examiner les problèmes d’accès, tracer les non-réceptions et rétablir les champs de mesure manquants.", "SOURCE DATA — Baseline and follow-up household records provide the underlying observations. Operational delivery records provide transfer and cash-access evidence.": "DONNÉES SOURCES — Les registres ménages de baseline et de suivi fournissent les observations sous-jacentes. Les registres opérationnels de versement fournissent les preuves relatives aux transferts et à l’accès aux espèces.", "CALCULATION — Indicator calculations apply the documented methodology to source variables. Examples include FCS, rCSI and monthly per-capita economic capacity.": "CALCUL — Les calculs des indicateurs appliquent la méthodologie documentée aux variables sources. Les exemples incluent le FCS, le rCSI et la capacité économique mensuelle par habitant.", "CONTROL — The IPTT consolidates indicator values, denominators, targets and variance for the portfolio evidence chain.": "CONTRÔLE — L’IPTT consolide les valeurs des indicateurs, les dénominateurs, les cibles et les écarts pour la chaîne de preuves du portfolio.", "INTERPRETATION — Stage 09 converts the evidence into documented findings while preserving uncertainty, denominators and measurement gaps.": "INTERPRÉTATION — L’étape 09 transforme les preuves en constats documentés tout en conservant l’incertitude, les dénominateurs et les lacunes de mesure.", "USE — Findings inform management decisions and planned actions. Follow-up evidence can then test whether the information gap or operational issue has been addressed.": "UTILISATION — Les constats éclairent les décisions de gestion et les actions prévues. Les preuves de suivi peuvent ensuite vérifier si la lacune d’information ou le problème opérationnel a été traité."};
+  const normalize = (s) => (s || '').replace(/\s+/g, ' ').trim();
+  const textNodes = [];
+  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+    acceptNode(node) {
+      const p = node.parentElement;
+      if (!p || ['SCRIPT','STYLE'].includes(p.tagName) || p.closest('.language-switch')) return NodeFilter.FILTER_REJECT;
+      return normalize(node.nodeValue) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+    }
+  });
+  let n;
+  while ((n = walker.nextNode())) textNodes.push({node:n, en:n.nodeValue});
+
+  const detailAttr = [];
+  document.querySelectorAll('[data-detail]').forEach(el => {
+    detailAttr.push({el, en: el.getAttribute('data-detail')});
+  });
+
+  const langButtons = document.querySelectorAll('[data-lang]');
+  let currentLang = localStorage.getItem('mpca_dashboard_lang') || 'en';
+
+  function translateText(lang) {
+    for (const item of textNodes) {
+      if (lang === 'en') {
+        item.node.nodeValue = item.en;
+      } else {
+        const key = normalize(item.en);
+        const translated = frMap[key];
+        if (translated) {
+          const raw = item.en;
+          const lead = (raw.match(/^\s*/) || [''])[0];
+          const trail = (raw.match(/\s*$/) || [''])[0];
+          item.node.nodeValue = lead + translated + trail;
+        }
+      }
+    }
+    document.title = lang === 'fr' ? frMap['MPCA Flood Response | MEAL Decision Dashboard'] : 'MPCA Flood Response | MEAL Decision Dashboard';
+  }
+
+  function translateDetails(lang) {
+    for (const item of detailAttr) {
+      const text = lang === 'fr' ? (detailFr[item.en] || item.en) : item.en;
+      item.el.setAttribute('data-current-detail', text);
+    }
+  }
+
+  function setLanguage(lang) {
+    currentLang = lang;
+    translateText(lang);
+    translateDetails(lang);
+    langButtons.forEach(btn => {
+      const active = btn.dataset.lang === lang;
+      btn.classList.toggle('active', active);
+      btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+    });
+    document.documentElement.lang = lang === 'fr' ? 'fr' : 'en';
+    document.body.dataset.language = lang;
+    localStorage.setItem('mpca_dashboard_lang', lang);
+  }
+
+  const popover = document.getElementById('detail-popover');
+  const detail = document.getElementById('detail-content');
+  const close = popover.querySelector('.close');
+  const root = document.body;
+
+  function clearSelection(){
+    root.querySelectorAll('.is-selected').forEach(el => el.classList.remove('is-selected'));
+  }
+
+  function showDetail(el){
+    clearSelection();
+    el.classList.add('is-selected');
+    const sourceText = el.getAttribute('data-current-detail') || el.getAttribute('data-detail') || '';
+    const header = currentLang === 'fr' ? 'Détail de la preuve' : 'Evidence detail';
+    detail.innerHTML = '<strong>' + header + '</strong><br>' + sourceText.replaceAll('MEB/SMEB', '<strong>MEB/SMEB</strong>');
+    popover.classList.add('show');
+    popover.scrollIntoView({behavior:'smooth', block:'nearest'});
+  }
+
+  function activate(el){ if(el) showDetail(el); }
+
+  root.querySelectorAll('[data-detail]').forEach(el => {
+    el.addEventListener('click', () => activate(el));
+    el.addEventListener('keydown', event => {
+      if(event.key === 'Enter' || event.key === ' '){ event.preventDefault(); activate(el); }
+    });
+  });
+
+  close.addEventListener('click', () => {
+    popover.classList.remove('show');
+    clearSelection();
+  });
+
+  langButtons.forEach(btn => btn.addEventListener('click', () => setLanguage(btn.dataset.lang)));
+  setLanguage(currentLang);
+})();
+</script>
+
+</body>
+</html>
