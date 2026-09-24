@@ -2,9 +2,11 @@
 
 ## Overview
 
-This folder contains the final case study presentation for the simulated **MPCA Flood Response MEAL portfolio** in coastal Côte d’Ivoire.
+This folder contains the final case study presentation for the simulated **MPCA Flood Response MEAL portfolio** in coastal Côte d'Ivoire.
 
-The presentation brings together the main elements of the MEAL cycle and communicates how programme logic, measurement, data, analysis and management action are connected.
+The presentation brings together the main elements of the MEAL cycle and communicates how programme logic, measurement, data, analysis, findings and management action are connected.
+
+---
 
 ## Purpose
 
@@ -12,13 +14,19 @@ The presentation is designed to demonstrate the practical application of an end-
 
 It shows how:
 
-**Programme logic → Measurement → Data → Analysis → Findings → Decisions → Actions → Presentation**
+**Programme logic → Measurement → Data → Analysis → Findings → Decisions → Actions → Dashboard → Presentation**
 
 The presentation also highlights the importance of maintaining traceability between programme objectives, indicators, evidence and management decisions.
 
+---
+
 ## Portfolio Position
 
-This presentation is the final communication layer of the portfolio.
+This presentation is the **final communication layer** of the portfolio.
+
+The interactive dashboard serves as the **evidence-presentation layer**, bringing together the portfolio's evidence, findings and management actions in an interactive format.
+
+This presentation then communicates the overall case study, MEAL approach, evidence, findings and learning in a structured presentation format.
 
 The portfolio sequence is:
 
@@ -36,34 +44,87 @@ The portfolio sequence is:
 
 The presentation therefore does not replace the underlying MEAL deliverables. It communicates the evidence and learning produced through them.
 
+---
+
 ## Key Areas Covered
 
-* Humanitarian situation and programme logic
-* MEAL approach and evidence pathway
-* Food Consumption Score (FCS)
-* Reduced Coping Strategies Index (rCSI)
-* Economic capacity
-* Cash delivery and access
-* Findings and management actions
-* Measurement gaps and limitations
-* Portfolio architecture
-* Feedback and Response Mechanism (FRM) as a complementary accountability component
+- Humanitarian situation and programme logic
+- MEAL approach and evidence pathway
+- Food Consumption Score (FCS)
+- Reduced Coping Strategies Index (rCSI)
+- Economic capacity
+- Cash delivery and access
+- Findings and management actions
+- Measurement gaps and limitations
+- Portfolio architecture
+- Evidence traceability
+- Feedback and Response Mechanism (FRM) as a complementary accountability component
+
+---
 
 ## Evidence and Interpretation
 
-The case study uses a simulated baseline and follow-up panel dataset.
+The case study presentation follows the same evidence principles used throughout the portfolio.
 
-Findings are presented as **descriptive before-and-after evidence**. Changes between baseline and follow-up are not presented as proof that MPCA alone caused the observed changes.
+### Descriptive comparison
 
-Where measurement gaps exist, they are explicitly identified rather than filled with assumptions.
+Baseline-to-follow-up comparisons describe observed change.
 
-## Files
+They do **not** establish that MPCA caused the observed changes.
 
-* `MPCA_Flood_Response_MEAL_Case_Study_Presentation.pptx`
-  Editable PowerPoint version of the final case study presentation.
+### Evidence traceability
 
-## Disclaimer
+Results are connected through the portfolio evidence chain:
 
-This is a simulated humanitarian MEAL portfolio project created for learning and professional skills demonstration.
+**Source data → Indicator calculation → IPTT → Finding → Management action → Follow-up evidence**
 
-All programme scenarios, household data, survey responses, findings and management actions are fictional.
+### Measurement limitations
+
+Where planned indicators cannot be assessed because the required evidence or denominator is unavailable, the limitation is presented as a **measurement gap** rather than being replaced with an assumption.
+
+### Economic capacity
+
+Economic-capacity change is presented descriptively.
+
+Adequacy against an MEB/SMEB threshold remains **TBD** because no contextual threshold is available in the evidence base.
+
+---
+
+## Complementary FRM Workstream
+
+The portfolio also includes a complementary **Feedback and Response Mechanism (FRM)** workstream supporting accountability, learning and programme decision-making.
+
+The conceptual workflow is:
+
+**Feedback / Complaint → Registration → Categorisation & Triage → Referral / Investigation → Response → Case Closure → Analysis & Learning → Programme / Management Action**
+
+The FRM is complementary to the numbered portfolio stages and is not treated as an additional stage after the presentation.
+
+No actual beneficiary complaints are represented as observed evidence in this portfolio.
+
+---
+
+## Presentation Role
+
+The presentation provides the final communication layer through which the portfolio can be reviewed as a complete MEAL case study.
+
+It brings together:
+
+**Programme context  
+→ Programme logic  
+→ Measurement system  
+→ Data collection  
+→ Baseline and follow-up evidence  
+→ Indicator analysis  
+→ Findings  
+→ Management actions  
+→ Dashboard  
+→ Case study communication**
+
+---
+
+## Portfolio Note
+
+This is a **simulated humanitarian MEAL portfolio project** created for professional learning and demonstration purposes.
+
+The datasets are fictional and do not represent actual beneficiaries, households, programme operations or humanitarian response results.
