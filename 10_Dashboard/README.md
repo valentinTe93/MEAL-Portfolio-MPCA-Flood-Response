@@ -228,6 +228,18 @@ This dashboard is part of the broader simulated MEAL portfolio:
 
 ---
 
+## Dashboard Technology Decision
+
+Power BI was considered as an alternative implementation for the dashboard.
+
+For this portfolio, an interactive web dashboard was selected because the primary objective was to provide a publicly accessible, bilingual and evidence-traceable presentation layer that could be integrated directly into the GitHub portfolio.
+
+The web implementation allows the dashboard to be accessed directly through a browser and supports interactive evidence cards, bilingual navigation, methodology notes, evidence traceability and links to the underlying portfolio stages.
+
+This decision does not imply that Power BI is unsuitable for MEAL reporting or programme decision support. Power BI remains a relevant tool for organizational reporting, analysis and dashboarding depending on the operational environment and reporting requirements.
+
+The technology choice for this project was therefore based on the intended audience, accessibility, portfolio format and presentation objectives.
+
 ## 👤 Author
 
 **Valentin Te**
