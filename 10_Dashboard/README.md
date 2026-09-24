@@ -228,7 +228,7 @@ This dashboard is part of the broader simulated MEAL portfolio:
 
 ---
 
-## Dashboard Technology Decision
+## Dashboard Technology Decision Important Note
 
 Power BI was considered as an alternative implementation for the dashboard.
 
