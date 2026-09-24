@@ -1,230 +1,294 @@
-# MEAL Portfolio: MPCA Flood Response
+# MPCA Flood Response | MEAL Portfolio
 
-## Project Overview
+> **From programme logic to evidence, findings, decisions and action**
 
-A practical MEAL portfolio project simulating a humanitarian **Multipurpose Cash Assistance (MPCA) response to flooding in coastal Côte d’Ivoire**.
+A practical, source-locked MEAL portfolio built around a simulated Multipurpose Cash Assistance (MPCA) flood response in coastal Côte d'Ivoire.
 
-The project demonstrates an end-to-end MEAL cycle, from programme logic and indicator design through data collection, analysis, interpretation, management action and communication.
-
-The portfolio is structured around a simulated programme scenario and follows a **MEAL DPro-aligned approach**.
+The portfolio demonstrates how a MEAL system can connect programme logic, data collection, indicator analysis, evidence interpretation and management use.
 
 ---
 
-## Project Objective
+## 🌍 Situational Context
 
-The objective is to demonstrate practical entry-level MEAL skills through the development of a complete simulated MEAL system.
+Flooding disrupted livelihoods and reduced the ability of vulnerable households to meet essential needs during the flood season.
 
-The project focuses not only on collecting data, but on showing how evidence can move through the MEAL cycle:
+The simulated response uses **Multipurpose Cash Assistance (MPCA)** to support eligible flood-affected households.
 
-**Programme logic → Measurement → Data → Analysis → Findings → Decisions → Actions**
+The portfolio follows the programme from its initial logic through measurement, analysis and management use.
 
-The portfolio also demonstrates the importance of data quality, appropriate indicator denominators, transparent interpretation and clearly identified measurement gaps.
+The evidence chain is deliberately maintained throughout:
 
----
-
-## Humanitarian Scenario
-
-The simulated programme responds to severe flooding affecting vulnerable households in a coastal region of Côte d’Ivoire.
-
-Flooding has disrupted household livelihoods and access to essential goods. The intervention uses MPCA to provide planned cash assistance to eligible flood-affected households.
-
-The MEAL system is designed to monitor:
-
-* delivery of planned cash assistance
-* access to cash
-* food consumption and food-related coping
-* household economic capacity
-* operational performance
-* programme-level findings and management actions
-* feedback and response mechanisms
+**Programme problem → intervention logic → measurement → evidence → interpretation → finding → decision → action**
 
 ---
 
-## Portfolio Workflow
+## 🎯 Portfolio Objective
 
-The portfolio follows this sequence:
+The purpose of this project is to demonstrate a practical MEAL workflow rather than simply present a collection of MEAL documents.
 
-**Theory of Change**
-↓
-**Results Framework**
-↓
-**Logframe**
-↓
-**PMP / MEAL Plan**
-↓
-**KoBoToolbox**
-↓
-**Baseline Dataset**
-↓
-**Indicator Analysis**
-↓
-**Follow-Up**
-↓
-**Findings, Decisions & Actions**
-↓
-**Power BI Dashboard**
-↓
-**MEAL Case Study Presentation**
+It shows how:
 
-Each stage builds on the evidence and decisions established in the previous stages.
+- programme logic is translated into measurable results;
+- indicators are defined and operationalized;
+- household-level data are collected through KoBoToolbox;
+- baseline and follow-up evidence are analyzed;
+- indicators are carried into an IPTT;
+- findings are derived from documented evidence;
+- management actions are linked to findings;
+- evidence is presented through an interactive decision dashboard;
+- results remain traceable back to their underlying evidence.
 
 ---
 
-## Portfolio Components
+# 🧭 Portfolio Architecture
 
-| Stage | Component                                          | Purpose                                                                                               |
-| ----- | -------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
-| 01    | [Theory of Change](01_Theory_of_Change/)           | Defines the causal pathway, assumptions and conditions required for change.                           |
-| 02    | [Results Framework](02_Results_Framework/)         | Translates the programme logic into results and measurable change.                                    |
-| 03    | [Logframe](03_Logframe/)                           | Connects activities, outputs, outcomes and indicators through a logical hierarchy.                    |
-| 04    | [PMP / MEAL Plan](04_PMP/)                         | Defines indicators, measurement methods, responsibilities, data flow, quality and use of information. |
-| 05    | [KoBoToolbox](05_KoboToolbox/)                     | Provides the digital data-collection tool and supporting documentation.                               |
-| 06    | [Baseline Dataset](06_Baseline_Dataset/)           | Contains the cleaned and audited simulated baseline dataset.                                          |
-| 07    | [Indicator Analysis](07_Indicator_Analysis/)       | Tracks and analyses indicator performance using baseline evidence.                                    |
-| 08    | [Follow-Up](08_Follow_Up/)                         | Provides the follow-up dataset and updates performance evidence.                                      |
-| 09    | [Findings & Decisions](09_Findings_and_Decisions/) | Translates evidence into findings, decisions and management actions.                                  |
-| 10    | [Dashboard](10_Dashboard/)                         | Communicates key MEAL indicators and evidence through Power BI.                                       |
-| 11    | Case Study Presentation                            | Communicates the complete MEAL case study and portfolio journey.                                      |
+The core portfolio follows this sequence:
 
----
+**01 ToC  
+→ 02 Results Framework  
+→ 03 Logframe  
+→ 04 PMP  
+→ 05 KoBoToolbox  
+→ 06 Baseline  
+→ 07 Indicator Analysis  
+→ 08 Follow-Up  
+→ 09 Findings & Actions  
+→ 10 Dashboard  
+→ 11 Case Study Presentation**
 
-## Feedback and Response Mechanism
-
-### FRM as a Complementary Accountability Component
-
-The portfolio also incorporates a **Feedback and Response Mechanism (FRM)** as a complementary accountability and learning component.
-
-FRM is not treated as another sequential stage after the dashboard. Instead, it connects affected people's feedback and complaints with programme response, learning and management action.
-
-The conceptual pathway is:
-
-**Feedback / Complaint**
-↓
-**Registration**
-↓
-**Categorisation & Triage**
-↓
-**Referral / Investigation**
-↓
-**Response**
-↓
-**Case Closure**
-↓
-**Analysis & Learning**
-↓
-**Programme / Management Action**
-
-The FRM concept is therefore connected to the wider MEAL system, particularly findings, decisions, programme learning and accountability.
-
-No real beneficiary complaints or personal cases are represented in this portfolio.
+A complementary **Feedback and Response Mechanism (FRM)** workstream supports accountability, learning and programme decision-making across the portfolio.
 
 ---
 
-## What This Portfolio Demonstrates
+## 📂 Portfolio Stages
 
-### Programme & MEAL Design
+### 01 — Theory of Change
 
-* Theory of Change development
-* Results Framework design
-* Logframe development
-* MEAL planning
-* Indicator selection and measurement design
+Defines the problem, intended change pathway, assumptions and preconditions linking the intervention to the overall objective.
 
-### Data Collection & Management
-
-* KoBoToolbox / XLSForm
-* Data-collection workflow
-* Baseline and follow-up datasets
-* Data cleaning and validation
-* Data-quality awareness
-* Responsible data considerations
-
-### Monitoring & Analysis
-
-* Indicator Performance Tracking Table (IPTT)
-* Food Consumption Score (FCS)
-* Reduced Coping Strategies Index (rCSI)
-* Economic capacity measurement
-* Baseline / follow-up comparison
-* Operational performance indicators
-* Appropriate denominator selection
-
-### Evidence Use
-
-* Findings development
-* Identification of measurement gaps
-* Management decisions
-* Action planning
-* Traceability from evidence to action
-* Power BI dashboard communication
-
-### Accountability & Learning
-
-* Feedback and Response Mechanism concept
-* Feedback-to-response workflow
-* Linking accountability information to programme learning and action
+[View Theory of Change](./01_Theory_of_Change/)
 
 ---
 
-## Evidence and Interpretation
+### 02 — Results Framework
 
-The portfolio uses simulated baseline and follow-up data to demonstrate MEAL analysis.
+Translates the programme logic into a structured hierarchy of goal, specific outcomes, intermediate results and outputs.
 
-Baseline and follow-up comparisons are presented as **descriptive before-and-after evidence**. They are not presented as causal estimates and should not be interpreted as proof that MPCA alone caused observed changes.
-
-Where an indicator cannot be fully assessed because a required threshold, denominator, variable or timing reference is unavailable, the limitation is kept visible rather than filled with an assumption.
-
-This approach is intended to demonstrate not only the ability to produce indicators, but also the ability to recognise the limits of the available evidence.
+[View Results Framework](./02_Results_Framework/)
 
 ---
 
-## Portfolio Architecture
+### 03 — Logframe
 
-The portfolio has two connected layers.
+Converts the results framework into a logical management structure linking outputs, outcomes, indicators, assumptions and activities.
 
-### Core MEAL Evidence Flow
-
-**ToC → Results Framework → Logframe → PMP → KoBo → Baseline → IPTT → Follow-Up → Comparison → Findings & Actions**
-
-### Communication Layer
-
-**Findings & Actions → Power BI Dashboard → Case Study Presentation**
-
-### Complementary Accountability Layer
-
-**FRM → Feedback → Response → Learning → Management Action**
-
-Together, these components show how programme logic, measurement, evidence, accountability and decision-making can be connected within a practical MEAL system.
+[View Logframe](./03_Logframe/)
 
 ---
 
-## Tools & Methods
+### 04 — PMP / MEAL Plan
 
-The portfolio uses:
+Defines the measurement system, indicators, data sources, responsibilities, timing, data flow, quality controls, analysis and information use.
 
-* **KoBoToolbox / XLSForm** for digital data collection
-* **Excel** for dataset management, indicator tracking and analysis
-* **Power Query / Power BI** for data transformation and dashboard development
-* **MEAL DPro principles** as a reference for MEAL planning and portfolio structure
-
-Indicator methodologies are documented within the relevant portfolio components.
+[View PMP](./04_PMP/)
 
 ---
 
-## Important Disclaimer
+### 05 — KoBoToolbox
 
-This is a **simulated humanitarian MEAL portfolio project** created for learning and professional skills demonstration.
+Contains the household data-collection instrument developed from the MEAL measurement requirements.
 
-All programme scenarios, household records, survey responses, datasets, findings and management actions are fictional.
+The form was tested and deployed using KoBoToolbox.
 
-They should **not** be interpreted as real humanitarian field data, beneficiary information or actual programme results.
-
-The project is intended to demonstrate MEAL methods, analytical thinking, data-management practices and evidence-to-action workflows.
+[View KoBoToolbox Work](./05_KoboToolbox/)
 
 ---
 
-## Portfolio Status
+### 06 — Baseline Dataset
 
-The core MEAL cycle and case-study presentation have been developed as a connected portfolio.
+Contains the cleaned and audited simulated baseline household dataset.
 
-The repository is structured to allow each MEAL component to be inspected individually while also showing how the components connect as one evidence-to-action workflow.
+The baseline establishes the starting point for the selected outcome and operational indicators.
+
+[View Baseline Evidence](./06_Baseline_Dataset/)
+
+---
+
+### 07 — Indicator Analysis
+
+Translates household-level observations into indicator results and prepares the evidence for IPTT use and interpretation.
+
+[View Indicator Analysis](./07_Indicator_Analysis/)
+
+---
+
+### 08 — Follow-Up
+
+Contains the cleaned and audited follow-up evidence and updates the indicator picture after implementation.
+
+[View Follow-Up Evidence](./08_Follow_Up/)
+
+---
+
+### 09 — Findings, Decisions & Actions
+
+Moves from indicator results to documented findings, interpretation and planned management actions.
+
+The stage maintains the distinction between:
+
+**Observed evidence → Interpretation → Management response**
+
+[View Findings & Actions](./09_Findings_and_Decisions/)
+
+---
+
+### 10 — Interactive MEAL Decision Dashboard
+
+The final evidence-presentation layer.
+
+The dashboard connects:
+
+**Situational context → Household outcomes → Operational delivery → Findings → Management actions → Evidence traceability**
+
+It is available in **English and French** and is designed for interactive exploration.
+
+### [🌐 Open the Live Dashboard](https://valentinTe93.github.io/MEAL-Portfolio-MPCA-Flood-Response/)
+
+[View Dashboard Documentation](./10_Dashboard/)
+
+---
+
+### 11 — MEAL Case Study Presentation
+
+The final communication layer summarizing the case study, MEAL approach, evidence chain, findings, management use and portfolio architecture.
+
+[View Case Study Presentation](./11_Case_Study_Presentation/)
+
+---
+
+# 🔎 Evidence & Traceability
+
+The portfolio is designed so that dashboard results can be traced back through the MEAL evidence chain:
+
+**Source data  
+→ Indicator calculation  
+→ IPTT  
+→ Finding  
+→ Management action  
+→ Follow-up evidence**
+
+The dashboard therefore functions as a presentation layer rather than a black box.
+
+---
+
+# 📊 Key Evidence Principles
+
+### Descriptive before/after analysis
+
+Baseline-to-follow-up changes are presented descriptively.
+
+The analysis does **not** claim causal attribution to MPCA.
+
+### Denominator discipline
+
+Indicators use the denominator appropriate to the population being measured.
+
+For example:
+
+- household panel indicators: **n = 60**
+- cash-access indicators: **n = 56 assisted households**
+
+### Economic-capacity caution
+
+Economic capacity is reported as observed change.
+
+Adequacy against an MEB/SMEB threshold remains **TBD** because no contextual threshold is available in the evidence base.
+
+### Measurement gaps remain visible
+
+Where a planned indicator cannot be assessed because the required evidence or denominator is unavailable, the gap is reported rather than filled with an assumption.
+
+---
+
+# 🧩 Complementary FRM Workstream
+
+The portfolio also incorporates a planned **Feedback and Response Mechanism (FRM)** component.
+
+Conceptually:
+
+**Feedback / Complaint  
+→ Registration  
+→ Categorisation & Triage  
+→ Referral / Investigation  
+→ Response  
+→ Case Closure  
+→ Analysis & Learning  
+→ Programme / Management Action**
+
+No actual beneficiary complaints are invented in the portfolio.
+
+Any future simulated FRM dataset will be clearly identified as simulated.
+
+---
+
+# 🛡️ Data & Evidence Integrity
+
+This portfolio deliberately distinguishes:
+
+- observed results;
+- calculated indicators;
+- documented interpretation;
+- planned management actions;
+- measurement gaps;
+- assumptions and contextual conditions.
+
+The objective is to demonstrate not only the ability to produce MEAL outputs, but also the ability to understand **what the evidence can and cannot support**.
+
+---
+
+# 💡 What This Portfolio Demonstrates
+
+### MEAL technical skills
+
+- Theory of Change
+- Results Framework
+- Logframe
+- PMP / MEAL planning
+- Indicator development
+- KoBoToolbox data collection
+- Baseline and follow-up measurement
+- IPTT
+- Data quality and evidence checks
+- Indicator analysis
+- Findings and action tracking
+- Accountability / FRM concepts
+
+### Data and decision skills
+
+- Household-level data analysis
+- Before/after comparison
+- Denominator management
+- Evidence interpretation
+- Management-oriented findings
+- Interactive dashboard development
+- Evidence traceability
+- Bilingual information presentation
+
+---
+
+# 👤 Author
+
+**Valentin Te**
+
+MEAL Portfolio | MPCA Flood Response | Coastal Côte d'Ivoire
+
+[LinkedIn](https://www.linkedin.com/in/valentinte/) ·
+[GitHub](https://github.com/valentinTe93/MEAL-Portfolio-MPCA-Flood-Response)
+
+---
+
+# ⚠️ Portfolio Note
+
+This is a **simulated humanitarian MEAL portfolio project** created for professional learning and demonstration purposes.
+
+The datasets are fictional and do not represent actual beneficiaries, households, programme operations or humanitarian response results.
